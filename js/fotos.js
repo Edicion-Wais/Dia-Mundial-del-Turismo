@@ -10,7 +10,6 @@ window.FOTOS_COMMONS = {
   'querrequerre': 'Inca Jay - Querrequerre (Cyanocorax yncas) (9140440574).jpg',
   'oso-frontino': 'Tremarctos ornatus Maquipucuna.jpg',
   'venado-de-montana': 'Mazama rufina1.JPG',
-  'cafeto-tachirense': 'Arabica cherry coffee.jpg',
   'chorro-el-indio': 'Cascada Chorro El Indio..JPG',
   'pozos-de-lobatera': 'Poso Azul Lobatera.jpg',
   'puente-simon-bolivar': 'Puente San Antonio (IMG 6075).jpg',

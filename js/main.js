@@ -6,7 +6,10 @@
 
   var COMMONS = window.FOTOS_COMMONS || {};
   // Fotos propias (optimizadas en WebP: versión pequeña -sm y grande)
-  var PROPIAS = { 'peribeca': 'hero-1', 'tucusito': 'hero-2', 'basilica-san-cristobal': 'hero-3', 'glamping-de-montana': 'glamping-de-montana' };
+  var PROPIAS = { 'peribeca': 'hero-1', 'tucusito': 'hero-2', 'basilica-san-cristobal': 'hero-3', 'glamping-de-montana': 'glamping-de-montana',
+    'orquidea-angel-de-la-montana': 'orquidea-angel-de-la-montana', 'cafeto-tachirense': 'cafeto-tachirense',
+    'obelisco-de-los-italianos': 'obelisco-de-los-italianos', 'estatua-ecuestre-bolivar': 'estatua-ecuestre-bolivar',
+    'leones-de-capacho': 'leones-de-capacho' };
   function commonsUrl(archivo, ancho) {
     return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(archivo.replace(/ /g, '_')) + '?width=' + ancho;
   }
