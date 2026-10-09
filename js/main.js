@@ -124,6 +124,19 @@
     revelar(el);
   });
 
+  /* ---------- Pueblo: noche ↔ día ---------- */
+  var pueblo = document.getElementById('pueblo');
+  if (pueblo) {
+    var cambiarHora = function () {
+      var dia = pueblo.classList.toggle('is-dia');
+      pueblo.setAttribute('aria-pressed', dia ? 'true' : 'false');
+    };
+    pueblo.addEventListener('click', cambiarHora);
+    pueblo.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cambiarHora(); }
+    });
+  }
+
   /* ---------- Pestañas + tarjetas ---------- */
   var tabs = document.getElementById('tabs');
   var track = document.getElementById('track');
