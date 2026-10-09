@@ -300,8 +300,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .tile:hover span:last-child { background: var(--coral); }
 .tile:hover .media__photo { transform: scale(1.06); }
-.outro__foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 14px; font-weight: 700; margin-top: 36px; color: var(--lime); }
-.outro__foot img { height: clamp(44px, 4.6vw, 68px); width: auto; display: block; }
+.outro__foot { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; margin-top: 48px; }
+.outro__foot img { height: clamp(56px, 6vw, 88px); width: auto; display: block; }
+.outro__ig {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 22px; border-radius: 999px;
+  background: var(--orange); color: #fff; font-weight: 600; font-size: 16px;
+  transition: background .25s;
+}
+.outro__ig:hover { background: var(--coral); }
+.outro__tag { font-size: 13px; font-weight: 700; color: var(--lime); }
 
 /* ---------- FICHA (MODAL) ---------- */
 .modal {
