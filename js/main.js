@@ -5,12 +5,15 @@
   CATS.forEach(function (c) { catById[c.id] = c; });
 
   var COMMONS = window.FOTOS_COMMONS || {};
-  var PROPIAS = { 'peribeca': 1, 'tucusito': 1, 'basilica-san-cristobal': 1, 'glamping-de-montana': 1 };
+  // Fotos propias (optimizadas en WebP: versión pequeña -sm y grande)
+  var PROPIAS = { 'peribeca': 'hero-1', 'tucusito': 'hero-2', 'basilica-san-cristobal': 'hero-3', 'glamping-de-montana': 'glamping-de-montana' };
   function commonsUrl(archivo, ancho) {
     return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(archivo.replace(/ /g, '_')) + '?width=' + ancho;
   }
   function foto(id, ancho) {
-    if (!PROPIAS[id] && COMMONS[id]) return commonsUrl(COMMONS[id], ancho || 900);
+    ancho = ancho || 600;
+    if (PROPIAS[id]) return 'img/' + PROPIAS[id] + (ancho <= 700 ? '-sm' : '') + '.webp';
+    if (COMMONS[id]) return commonsUrl(COMMONS[id], ancho);
     return 'img/' + id + '.jpg';
   }
 
@@ -91,24 +94,28 @@
   window.addEventListener('resize', alScroll);
   alScroll();
 
-  /* ---------- Cierre: mismas fotos en fundido ---------- */
-  var outroSlides = document.querySelectorAll('.outro__slide');
-  var outroCurrent = 0;
-  setInterval(function () {
-    outroCurrent = (outroCurrent + 1) % outroSlides.length;
-    outroSlides.forEach(function (s, n) { s.classList.toggle('is-active', n === outroCurrent); });
-  }, 6500);
-
   /* ---------- Aparición al hacer scroll ---------- */
   var observer = 'IntersectionObserver' in window
     ? new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
-          if (e.isIntersecting) { e.target.classList.add('is-visible'); observer.unobserve(e.target); }
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            cargarFondos(e.target);
+            observer.unobserve(e.target);
+          }
         });
       }, { threshold: 0.15 })
     : null;
+  // Las fotos de las tarjetas se cargan solo cuando la tarjeta aparece
+  function cargarFondos(el) {
+    var lista = el.matches('[data-bg]') ? [el] : [];
+    lista.concat([].slice.call(el.querySelectorAll('[data-bg]'))).forEach(function (n) {
+      n.style.backgroundImage = "url('" + n.dataset.bg + "')";
+      n.removeAttribute('data-bg');
+    });
+  }
   function revelar(el) {
-    if (observer) observer.observe(el); else el.classList.add('is-visible');
+    if (observer) observer.observe(el); else { el.classList.add('is-visible'); cargarFondos(el); }
   }
 
   document.querySelectorAll('.pueblo').forEach(revelar);
@@ -147,7 +154,7 @@
       card.style.setProperty('--d', Math.min(n, 6) * 0.09 + 's');
       card.innerHTML =
         '<div class="media media--' + s.cat + '">' +
-          '<span class="media__photo" style="background-image:url(\'' + foto(s.id) + '\')"></span>' +
+          '<span class="media__photo" data-bg="' + foto(s.id) + '"></span>' +
           '<span class="card__chip card__chip--' + s.cat + '"></span>' +
           '<span class="card__body">' +
             '<span class="card__name"></span>' +
@@ -212,7 +219,8 @@
   render('todos');
 
   document.querySelectorAll('[data-foto]').forEach(function (el) {
-    el.style.backgroundImage = "url('" + foto(el.dataset.foto) + "')";
+    el.dataset.bg = foto(el.dataset.foto);
+    revelar(el);
   });
 
   /* ---------- Detalle (modal) ---------- */

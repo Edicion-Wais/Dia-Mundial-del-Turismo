@@ -6,9 +6,9 @@ Mientras una foto no exista, la web muestra un fondo ilustrado.
 Recomendado: fotos verticales de al menos 900 × 1200 px (portada: horizontales de 1920 px de ancho).
 
 ## Portada y cierre
-- hero-1.jpg  →  Portada: Peribeca
-- hero-2.jpg  →  Portada: Tucusito (colibrí)
-- hero-3.jpg  →  Portada: San Cristóbal
+- hero-1.webp (+ hero-1-sm.webp)  →  Peribeca
+- hero-2.webp (+ hero-2-sm.webp)  →  Tucusito
+- hero-3.webp (+ hero-3-sm.webp)  →  San Cristóbal
 - outro.jpg   →  Fondo de la sección final (paisaje del Táchira)
 
 ## Sitios (38)

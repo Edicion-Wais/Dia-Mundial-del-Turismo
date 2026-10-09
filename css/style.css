@@ -92,7 +92,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .intro__bg {
   position: absolute; inset: -40px; z-index: -3;
-  background: url("../img/hero-3.jpg") center / cover no-repeat;
+  background: url("../img/hero-3-sm.webp") center / cover no-repeat;
   filter: blur(10px) brightness(.28) saturate(.7);
   transform: scale(calc(1.15 + var(--p) * .15));
   opacity: 0; animation: introFade 3s ease .2s forwards;
@@ -116,30 +116,32 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   position: absolute; top: 50%; left: 50%; height: 2px; width: min(70vw, 760px);
   background: linear-gradient(90deg, transparent, var(--lime), var(--cyan), transparent);
   transform: translate(-50%, -50%) scaleX(0);
-  animation: lineDraw 1.6s cubic-bezier(.7,0,.2,1) .4s forwards, lineOut .8s ease 2s forwards;
+  animation: lineDraw 1.2s cubic-bezier(.7,0,.2,1) .3s forwards, lineOut .5s ease 1.5s forwards;
 }
 .intro__logo {
   width: min(78vw, 640px); height: auto; display: block;
   clip-path: inset(-50% 100% -50% -20%);
   filter: blur(14px) drop-shadow(0 0 0 rgba(132,194,37,0));
   transform: scale(1.12); opacity: 0;
-  animation: logoIn 2.2s cubic-bezier(.2,.7,.1,1) 1.4s forwards, logoGlow 4s ease-in-out 3.8s infinite alternate;
+  animation: logoIn 2s cubic-bezier(.2,.7,.1,1) 2.1s forwards, logoGlow 4s ease-in-out 4.3s infinite alternate;
 }
 .intro__kicker {
   margin: 0; font-size: clamp(12px, 1.3vw, 16px); font-weight: 500;
   letter-spacing: .5em; text-transform: uppercase; color: rgba(255,255,255,.75);
-  opacity: 0; animation: kickerIn 1.4s ease 3.2s forwards;
+  padding-left: .5em; /* compensa el espaciado final para centrar */
+  opacity: 0; animation: kickerIn 1.2s ease 3.7s forwards;
 }
 .intro__cue {
-  position: absolute; bottom: calc(var(--band) + 28px); left: 50%; transform: translateX(-50%);
+  position: absolute; bottom: calc(var(--band) + 28px); left: 0; right: 0; margin: 0 auto; width: max-content;
   display: flex; flex-direction: column; align-items: center; gap: 10px;
   font-size: 12px; font-weight: 500; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.7); white-space: nowrap; text-align: center;
-  opacity: 0; animation: kickerIn 1.2s ease 4s forwards;
+  padding-left: .3em;
+  opacity: 0; animation: kickerIn 1.2s ease 4.4s forwards;
 }
 .intro__cue i { width: 2px; height: 46px; background: rgba(255,255,255,.2); position: relative; overflow: hidden; border-radius: 2px; }
 .intro__cue i::after { content: ""; position: absolute; left: 0; right: 0; top: -40%; height: 40%; background: var(--orange); animation: cueDrop 1.8s ease-in-out infinite; }
 .intro__cue:hover { color: #fff; }
-.intro__geo { transform: translateY(100%); animation: geoUp 1.2s cubic-bezier(.2,.7,.2,1) 3.6s forwards; }
+.intro__geo { transform: translateY(100%); animation: geoUp 1.2s cubic-bezier(.2,.7,.2,1) 4.1s forwards; }
 
 @keyframes introFade { to { opacity: 1; } }
 @keyframes glowPulse { from { opacity: .6; transform: scale(1); } to { opacity: 1; transform: scale(1.08); } }
@@ -151,7 +153,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   100% { clip-path: inset(-50% -20% -50% -20%); filter: blur(0); transform: scale(1); opacity: 1; }
 }
 @keyframes logoGlow { from { filter: drop-shadow(0 0 0 rgba(132,194,37,0)); } to { filter: drop-shadow(0 0 22px rgba(132,194,37,.45)); } }
-@keyframes kickerIn { from { opacity: 0; letter-spacing: .9em; } to { opacity: 1; } }
+@keyframes kickerIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes cueDrop { 0% { top: -40%; } 100% { top: 100%; } }
 @keyframes geoUp { to { transform: none; } }
 
@@ -180,9 +182,24 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   margin: 0; padding: 0 var(--gutter); text-align: center;
   display: flex; flex-direction: column; align-items: center;
   font-weight: 800; line-height: 1.08; letter-spacing: .02em;
-  text-shadow: 0 0 28px rgba(11,19,80,.95), 0 8px 24px rgba(11,19,80,.9), 5px 6px 0 var(--navy);
   transform: scale(calc(1 + var(--p) * .12));
 }
+.montaje__aura {
+  position: absolute; left: 50%; top: 50%; z-index: 0; pointer-events: none;
+  width: clamp(340px, max(92vw, 72vh), 980px); aspect-ratio: 1;
+  transform: translate(-50%, -50%) scale(calc(.9 + var(--p) * .25));
+  background: radial-gradient(circle, rgba(11,19,80,.97) 0%, rgba(11,19,80,.9) 34%, rgba(11,19,80,.55) 56%, rgba(11,19,80,0) 72%);
+  display: grid; place-items: center;
+}
+.montaje__mapa { width: 58%; height: auto; overflow: visible; transform: rotate(calc(var(--p) * 10deg)); }
+.montaje__mapa path {
+  fill: rgba(132,194,37,.07); stroke: var(--lime); stroke-width: 3; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; opacity: .55;
+  transition: stroke-dashoffset 3.5s cubic-bezier(.4,0,.2,1) .3s, fill 1.5s ease 2.5s;
+  vector-effect: non-scaling-stroke;
+}
+.montaje.is-on .montaje__mapa path { stroke-dashoffset: 0; fill: rgba(132,194,37,.12); }
+.montaje__titulo { position: relative; z-index: 1; }
 .montaje__l1, .montaje__l2 { font-size: clamp(44px, 10vw, 150px); color: #fff; }
 .montaje__l3 {
   margin-top: 14px; padding-top: 18px;
@@ -252,7 +269,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .recos__head h2 { margin: 18px 0 10px; font-size: clamp(30px, 4.4vw, 60px); font-weight: 800; letter-spacing: .005em; line-height: 1.08; }
 .recos__head h2 em { font-style: normal; color: var(--lime); }
 .recos__sub { margin: 0; max-width: 34em; font-size: 15px; line-height: 1.6; color: var(--muted); }
-.recos__ctrl { display: flex; align-items: center; gap: 12px; flex: none; }
+.recos__ctrl { display: flex; align-items: center; gap: 14px; margin: 8px var(--gutter) 0; }
 .recos__count { font-size: 14px; font-weight: 600; color: var(--muted); margin-right: 6px; white-space: nowrap; }
 .recos__count b { color: #fff; font-size: 22px; font-weight: 800; margin-right: 4px; }
 
@@ -280,8 +297,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   gap: 22px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 14px var(--gutter) 26px;
+  padding: 16px var(--gutter) 34px;
   scroll-padding: 0 var(--gutter);
+  overflow-y: hidden; overscroll-behavior-x: contain;
   scrollbar-width: none;
   outline: none; cursor: grab;
 }
@@ -337,7 +355,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .carousel__arrow:hover { background: var(--orange); border-color: var(--orange); }
 
-.recos__progress { margin: 18px var(--gutter) 0; height: 4px; border-radius: 4px; background: rgba(255,255,255,.15); overflow: hidden; }
+.recos__progress { flex: 1; margin-right: 10px; height: 4px; border-radius: 4px; background: rgba(255,255,255,.15); overflow: hidden; }
 .recos__progress span { display: block; height: 100%; width: 20%; border-radius: 4px; background: linear-gradient(90deg, var(--orange), var(--lime)); transform-origin: left; transition: width .2s linear, margin-left .2s linear; }
 
 /* ---------- CIERRE ---------- */
@@ -346,10 +364,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .outro__slide {
   position: absolute; inset: 0;
   background-size: cover; background-position: center;
-  opacity: 0; transform: scale(1.08);
-  transition: opacity 1.6s ease, transform 8s ease-out;
 }
-.outro__slide.is-active { opacity: 1; transform: scale(1); }
 .outro__shade {
   position: absolute; inset: 0; z-index: -1;
   background:
@@ -427,7 +442,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .modal { grid-template-columns: 1fr; overflow-y: auto; }
   .modal__media { aspect-ratio: 16 / 10; min-height: 0; }
   .modal__body { max-height: none; padding: 28px 22px 28px; }
-  .recos__head { flex-direction: column; align-items: flex-start; }
 }
 @media (max-width: 560px) {
   .explora__cita br { display: none; }
@@ -436,7 +450,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .p-casa, .p-iglesia, .letra, .foto-r, .reveal, .card, .intro__logo, .intro__kicker, .intro__cue, .intro__bg, .intro__geo { opacity: 1 !important; transform: none !important; clip-path: none !important; filter: none !important; }
+  .montaje__mapa path, .p-casa, .p-iglesia, .letra, .foto-r, .reveal, .card, .intro__logo, .intro__kicker, .intro__cue, .intro__bg, .intro__geo { opacity: 1 !important; transform: none !important; clip-path: none !important; filter: none !important; }
   .intro__line { display: none; }
   html { scroll-behavior: auto; }
 }
