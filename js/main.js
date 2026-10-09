@@ -54,6 +54,23 @@
   function revelar(el) {
     if (observer) observer.observe(el); else el.classList.add('is-visible');
   }
+  document.querySelectorAll('.hero__title-main .line').forEach(revelar);
+
+  /* La entrada se desvanece y se aleja al hacer scroll */
+  var intro = document.getElementById('intro');
+  if (intro) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var p = Math.min(1, Math.max(0, window.scrollY / (intro.offsetHeight * 0.8)));
+        intro.style.setProperty('--p', p.toFixed(3));
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+
   document.querySelectorAll('.reveal').forEach(function (el, n) {
     if (el.parentElement.classList.contains('outro__inner')) el.style.setProperty('--d', (n % 4) * 0.12 + 's');
     revelar(el);

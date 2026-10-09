@@ -83,11 +83,88 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   transition: transform .8s cubic-bezier(.2, .7, .2, 1);
 }
 
+/* ---------- ENTRADA (logo) ---------- */
+.intro {
+  position: relative; height: 100svh; min-height: 520px;
+  display: grid; place-items: center;
+  background: #050a2e; overflow: hidden; isolation: isolate;
+  --p: 0; /* progreso de scroll 0→1 */
+}
+.intro__bg {
+  position: absolute; inset: -40px; z-index: -3;
+  background: url("../img/hero-3.jpg") center / cover no-repeat;
+  filter: blur(10px) brightness(.28) saturate(.7);
+  transform: scale(calc(1.15 + var(--p) * .15));
+  opacity: 0; animation: introFade 3s ease .2s forwards;
+}
+.intro__glow {
+  position: absolute; inset: 0; z-index: -2;
+  background:
+    radial-gradient(42% 38% at 50% 50%, rgba(132,194,37,.22), transparent 70%),
+    radial-gradient(30% 30% at 22% 75%, rgba(18,199,217,.16), transparent 70%),
+    radial-gradient(30% 30% at 80% 25%, rgba(255,61,87,.14), transparent 70%),
+    linear-gradient(180deg, rgba(5,10,46,.4), rgba(5,10,46,.9));
+  animation: glowPulse 7s ease-in-out infinite alternate;
+}
+.intro__stage {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 26px;
+  padding: 0 var(--gutter);
+  transform: translateY(calc(var(--p) * -60px)) scale(calc(1 - var(--p) * .18));
+  opacity: calc(1 - var(--p) * 1.3);
+}
+.intro__line {
+  position: absolute; top: 50%; left: 50%; height: 2px; width: min(70vw, 760px);
+  background: linear-gradient(90deg, transparent, var(--lime), var(--cyan), transparent);
+  transform: translate(-50%, -50%) scaleX(0);
+  animation: lineDraw 1.6s cubic-bezier(.7,0,.2,1) .4s forwards, lineOut .8s ease 2s forwards;
+}
+.intro__logo {
+  width: min(78vw, 640px); height: auto; display: block;
+  clip-path: inset(-50% 100% -50% -20%);
+  filter: blur(14px) drop-shadow(0 0 0 rgba(132,194,37,0));
+  transform: scale(1.12); opacity: 0;
+  animation: logoIn 2.2s cubic-bezier(.2,.7,.1,1) 1.4s forwards, logoGlow 4s ease-in-out 3.8s infinite alternate;
+}
+.intro__kicker {
+  margin: 0; font-size: clamp(12px, 1.3vw, 16px); font-weight: 500;
+  letter-spacing: .5em; text-transform: uppercase; color: rgba(255,255,255,.75);
+  opacity: 0; animation: kickerIn 1.4s ease 3.2s forwards;
+}
+.intro__cue {
+  position: absolute; bottom: calc(var(--band) + 28px); left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 500; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.7); white-space: nowrap; text-align: center;
+  opacity: 0; animation: kickerIn 1.2s ease 4s forwards;
+}
+.intro__cue i { width: 2px; height: 46px; background: rgba(255,255,255,.2); position: relative; overflow: hidden; border-radius: 2px; }
+.intro__cue i::after { content: ""; position: absolute; left: 0; right: 0; top: -40%; height: 40%; background: var(--orange); animation: cueDrop 1.8s ease-in-out infinite; }
+.intro__cue:hover { color: #fff; }
+.intro__geo { transform: translateY(100%); animation: geoUp 1.2s cubic-bezier(.2,.7,.2,1) 3.6s forwards; }
+
+@keyframes introFade { to { opacity: 1; } }
+@keyframes glowPulse { from { opacity: .6; transform: scale(1); } to { opacity: 1; transform: scale(1.08); } }
+@keyframes lineDraw { to { transform: translate(-50%, -50%) scaleX(1); } }
+@keyframes lineOut { to { opacity: 0; transform: translate(-50%, -50%) scaleX(1.4); } }
+@keyframes logoIn {
+  0% { clip-path: inset(-50% 100% -50% -20%); filter: blur(14px); transform: scale(1.12); opacity: 0; }
+  40% { opacity: 1; }
+  100% { clip-path: inset(-50% -20% -50% -20%); filter: blur(0); transform: scale(1); opacity: 1; }
+}
+@keyframes logoGlow { from { filter: drop-shadow(0 0 0 rgba(132,194,37,0)); } to { filter: drop-shadow(0 0 22px rgba(132,194,37,.45)); } }
+@keyframes kickerIn { from { opacity: 0; letter-spacing: .9em; } to { opacity: 1; } }
+@keyframes cueDrop { 0% { top: -40%; } 100% { top: 100%; } }
+@keyframes geoUp { to { transform: none; } }
+
+/* Título: las líneas suben desde una máscara */
+.hero__title-main .line { display: block; overflow: hidden; padding-top: .2em; margin-top: -.2em; }
+.reveal-up { display: inline-block; transform: translateY(105%); transition: transform 1.1s cubic-bezier(.2,.75,.1,1); transition-delay: var(--d, 0s); }
+.is-visible .reveal-up, .reveal-up.is-visible { transform: none; }
+
 /* ---------- PORTADA ---------- */
 .hero {
   position: relative;
   min-height: 100svh;
-  padding: calc(var(--band) + 26px) var(--gutter) calc(var(--band) + 36px);
+  padding: 34px var(--gutter) calc(var(--band) + 36px);
   display: grid;
   grid-template-rows: auto 1fr auto auto;
   gap: 24px;
@@ -371,6 +448,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .reveal, .card { opacity: 1 !important; transform: none !important; }
+  .reveal, .card, .reveal-up, .intro__logo, .intro__kicker, .intro__cue, .intro__bg, .intro__geo { opacity: 1 !important; transform: none !important; clip-path: none !important; filter: none !important; }
+  .intro__line { display: none; }
   html { scroll-behavior: auto; }
 }
