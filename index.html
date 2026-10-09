@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Visita Táchira · Día Mundial del Turismo</title>
+<title>Catálogo Turístico del Estado Táchira · Día Mundial del Turismo</title>
 <meta name="description" content="Celebra el Día Mundial del Turismo en el Táchira: naturaleza, monumentos, fe, tradiciones y sabores de los Andes venezolanos con su historia.">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#84C225">
 
-<meta property="og:title" content="Visita Táchira · Día Mundial del Turismo">
+<meta property="og:title" content="Catálogo Turístico del Estado Táchira">
 <meta property="og:description" content="Naturaleza, monumentos, fe, tradiciones y sabores de los Andes venezolanos.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="img/hero-1.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -26,11 +26,7 @@
     <div class="hero__slide" style="background-image:url('img/hero-2.jpg')"></div>
     <div class="hero__slide" style="background-image:url('img/hero-3.jpg')"></div>
   </div>
-  <svg class="hero__mountains" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <path class="m1" d="M0 360 L120 250 L210 300 L360 150 L470 260 L560 210 L700 330 L820 190 L960 300 L1080 170 L1220 280 L1330 220 L1440 280 V600 H0Z"/>
-    <path class="m2" d="M0 430 L140 330 L260 390 L400 260 L540 380 L660 320 L790 420 L930 290 L1060 400 L1200 310 L1340 390 L1440 350 V600 H0Z"/>
-    <path class="m3" d="M0 500 L180 420 L320 470 L470 390 L620 480 L760 430 L900 500 L1040 420 L1200 490 L1330 440 L1440 470 V600 H0Z"/>
-  </svg>
+  <div class="geo geo--top" aria-hidden="true"></div>
   <div class="hero__shade" aria-hidden="true"></div>
 
   <header class="nav">
@@ -43,8 +39,11 @@
   </header>
 
   <div class="hero__content">
-    <p class="hero__kicker">Día Mundial del Turismo</p>
-    <h1 class="hero__title">VISITA<br>TÁCHIRA</h1>
+    <p class="pill">Día Mundial del Turismo</p>
+    <h1 class="hero__title">
+      <span class="hero__title-main">CATÁLOGO<br>TURÍSTICO</span>
+      <span class="hero__title-sub">DEL ESTADO TÁCHIRA</span>
+    </h1>
   </div>
 
   <ul class="hero__index" aria-label="Destinos destacados">
@@ -59,15 +58,17 @@
     <p>En La Grita, centro espiritual de los Andes, se venera desde 1610 el Santo Cristo del Rostro Sereno.</p>
     <a class="hero__swipe" href="#recomendaciones">DESLIZA &gt;&gt;</a>
   </div>
+  <div class="rule rule--progress" aria-hidden="true"><span id="heroProgress"></span></div>
 </section>
 
-<div class="rule rule--progress" aria-hidden="true"><span id="heroProgress"></span></div>
+<div class="geo" aria-hidden="true"></div>
 
 <!-- ===== RECOMENDACIONES ===== -->
 <section class="recos" id="recomendaciones">
   <header class="recos__head">
-    <p>¿No sabes por dónde empezar? Estas son nuestras</p>
-    <h2>recomendaciones del Táchira</h2>
+    <p class="pill">Recomendaciones</p>
+    <h2>¿No sabes por dónde empezar?</h2>
+    <p class="recos__sub">Estos son los lugares, sabores y tradiciones que hacen único al Táchira</p>
   </header>
 
   <div class="tabs" role="tablist" id="tabs"></div>
@@ -105,6 +106,7 @@
   </div>
   <footer class="outro__foot">#DíaMundialDelTurismo · Táchira, Venezuela</footer>
 </section>
+<div class="geo geo--flip" aria-hidden="true"></div>
 
 <!-- ===== DETALLE ===== -->
 <dialog class="modal" id="modal" aria-labelledby="modalTitle">

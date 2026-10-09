@@ -1,4 +1,4 @@
-# Visita Táchira · Día Mundial del Turismo
+# Catálogo Turístico del Estado Táchira · Día Mundial del Turismo
 
 Web de una sola página (HTML/CSS/JS estático, sin build) con 38 sitios e
 íconos del estado Táchira y su historia.
