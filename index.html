@@ -30,7 +30,7 @@
   <div class="hero__shade" aria-hidden="true"></div>
 
   <header class="nav">
-    <a class="nav__brand" href="#inicio"><span class="dot"></span>TÁCHIRA</a>
+    <a class="nav__brand" href="#inicio"><img src="img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340"></a>
     <nav class="nav__links" aria-label="Secciones">
       <a href="#recomendaciones" data-goto="naturaleza">Naturaleza</a>
       <a href="#recomendaciones" data-goto="lugares" class="is-active">Lugares</a>
@@ -38,7 +38,7 @@
     </nav>
   </header>
 
-  <div class="hero__content">
+  <div class="hero__content reveal">
     <p class="pill">Día Mundial del Turismo</p>
     <h1 class="hero__title">
       <span class="hero__title-main">CATÁLOGO<br>TURÍSTICO</span>
@@ -52,7 +52,7 @@
     <li><button data-slide="2">San Cristóbal</button></li>
   </ul>
 
-  <div class="hero__blurbs">
+  <div class="hero__blurbs reveal">
     <p>Peribeca es un pueblito de calles empedradas, casas de colores y artesanía en el municipio Independencia, a media hora de la capital.</p>
     <p>Los tucusitos, como llamamos a los colibríes, son joyas voladoras que polinizan los bosques nublados y cafetales del Táchira.</p>
     <p>San Cristóbal, fundada en 1561, es la capital del estado: una ciudad de templos, plazas y monumentos entre montañas.</p>
@@ -65,13 +65,13 @@
 
 <!-- ===== RECOMENDACIONES ===== -->
 <section class="recos" id="recomendaciones">
-  <header class="recos__head">
+  <header class="recos__head reveal">
     <p class="pill">Recomendaciones</p>
     <h2>¿No sabes por dónde empezar?</h2>
     <p class="recos__sub">Estos son los lugares, sabores y tradiciones que hacen único al Táchira</p>
   </header>
 
-  <div class="tabs" role="tablist" id="tabs"></div>
+  <div class="tabs reveal" role="tablist" id="tabs"></div>
 
   <div class="carousel">
     <button class="carousel__arrow carousel__arrow--prev" id="prev" aria-label="Anterior">&#8249;</button>
@@ -84,18 +84,23 @@
 
 <!-- ===== CIERRE ===== -->
 <section class="outro" id="viaja">
-  <div class="outro__bg" aria-hidden="true"></div>
+  <div class="outro__slides" aria-hidden="true">
+    <div class="outro__slide is-active" style="background-image:url('img/hero-3.jpg')"></div>
+    <div class="outro__slide" style="background-image:url('img/hero-1.jpg')"></div>
+    <div class="outro__slide" style="background-image:url('img/hero-2.jpg');background-position:62% center"></div>
+  </div>
+  <div class="outro__shade" aria-hidden="true"></div>
   <div class="outro__inner">
-    <h2 class="outro__title">VIAJA Y<br>DISFRUTA EL<br>TÁCHIRA</h2>
+    <h2 class="outro__title reveal">VIAJA Y<br>DISFRUTA EL<br>TÁCHIRA</h2>
 
-    <a class="outro__play" href="#recomendaciones">
+    <a class="outro__play reveal" href="#recomendaciones">
       <span class="play" aria-hidden="true"></span>
       elige tu próxima aventura
     </a>
 
-    <p class="outro__text">Cada 27 de septiembre el mundo celebra el Día Mundial del Turismo. En el Táchira lo celebramos mostrando lo que somos: montañas de niebla, aves de colores, pueblos de faroles y calles empedradas, una fe que mueve multitudes y manos que tejen, moldean el barro y hornean el pan de cada día.</p>
+    <p class="outro__text reveal">Cada 27 de septiembre el mundo celebra el Día Mundial del Turismo. En el Táchira lo celebramos mostrando lo que somos: montañas de niebla, aves de colores, pueblos de faroles y calles empedradas, una fe que mueve multitudes y manos que tejen, moldean el barro y hornean el pan de cada día.</p>
 
-    <div class="outro__tiles">
+    <div class="outro__tiles reveal">
       <button class="tile media media--lugares" data-open="pozos-de-lobatera"><span class="media__photo" style="background-image:url('img/pozos-de-lobatera.jpg')"></span>
         <span>Pozos de Lobatera</span>
       </button>

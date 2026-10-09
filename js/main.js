@@ -27,6 +27,30 @@
   });
   autoplay();
 
+  /* ---------- Cierre: mismas fotos en fundido ---------- */
+  var outroSlides = document.querySelectorAll('.outro__slide');
+  var outroCurrent = 0;
+  setInterval(function () {
+    outroCurrent = (outroCurrent + 1) % outroSlides.length;
+    outroSlides.forEach(function (s, n) { s.classList.toggle('is-active', n === outroCurrent); });
+  }, 6500);
+
+  /* ---------- Aparición al hacer scroll ---------- */
+  var observer = 'IntersectionObserver' in window
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-visible'); observer.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 })
+    : null;
+  function revelar(el) {
+    if (observer) observer.observe(el); else el.classList.add('is-visible');
+  }
+  document.querySelectorAll('.reveal').forEach(function (el, n) {
+    if (el.parentElement.classList.contains('outro__inner')) el.style.setProperty('--d', (n % 4) * 0.12 + 's');
+    revelar(el);
+  });
+
   /* ---------- Pestañas + tarjetas ---------- */
   var tabs = document.getElementById('tabs');
   var track = document.getElementById('track');
@@ -55,7 +79,7 @@
       var card = document.createElement('button');
       card.type = 'button';
       card.className = 'card';
-      card.style.animationDelay = Math.min(n, 8) * 60 + 'ms';
+      card.style.setProperty('--d', Math.min(n, 6) * 0.09 + 's');
       card.innerHTML =
         '<div class="media media--' + s.cat + '">' +
           '<span class="media__photo" style="background-image:url(\'' + foto(s.id) + '\')"></span>' +
@@ -68,6 +92,7 @@
       card.setAttribute('aria-label', s.nombre + '. ' + s.corto);
       card.addEventListener('click', function () { abrir(s.id); });
       track.appendChild(card);
+      revelar(card);
     });
     track.scrollLeft = 0;
   }
