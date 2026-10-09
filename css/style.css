@@ -106,7 +106,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero__slide.is-active { opacity: 1; transform: scale(1); }
 /* Velo para que el título se lea sobre cualquier foto */
 .hero__shade {
-  position: absolute; inset: var(--band) 0; z-index: -1;
+  position: absolute; inset: 0; z-index: -1;
   background:
     linear-gradient(90deg, rgba(11,19,80,.82) 0%, rgba(11,19,80,.55) 45%, rgba(11,19,80,.15) 100%),
     linear-gradient(180deg, rgba(11,19,80,.35) 0%, rgba(11,19,80,0) 30%, rgba(11,19,80,0) 60%, rgba(11,19,80,.85) 100%);
@@ -276,7 +276,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .outro__slide.is-active { opacity: 1; transform: scale(1); }
 .outro__shade {
-  position: absolute; inset: 0 0 var(--band); z-index: -1;
+  position: absolute; inset: 0; z-index: -1;
   background:
     linear-gradient(90deg, rgba(11,19,80,.85) 0%, rgba(11,19,80,.5) 50%, rgba(11,19,80,.2) 100%),
     linear-gradient(180deg, rgba(11,19,80,.5) 0%, rgba(11,19,80,0) 35%, rgba(11,19,80,.6) 100%);
