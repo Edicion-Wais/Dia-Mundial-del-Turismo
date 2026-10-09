@@ -111,6 +111,7 @@
     if (observer) observer.observe(el); else el.classList.add('is-visible');
   }
 
+  document.querySelectorAll('.pueblo').forEach(revelar);
   document.querySelectorAll('.reveal').forEach(function (el, n) {
     if (el.parentElement.classList.contains('outro__inner')) el.style.setProperty('--d', (n % 4) * 0.12 + 's');
     revelar(el);
@@ -126,7 +127,9 @@
     b.type = 'button';
     b.setAttribute('role', 'tab');
     b.dataset.cat = o.id;
-    b.textContent = o.nombre;
+    var total = o.id === 'todos' ? SITIOS.length : SITIOS.filter(function (x) { return x.cat === o.id; }).length;
+    b.innerHTML = '<span></span><small>' + total + '</small>';
+    b.querySelector('span').textContent = o.nombre;
     b.addEventListener('click', function () { render(o.id); });
     tabs.appendChild(b);
   });
@@ -145,10 +148,14 @@
       card.innerHTML =
         '<div class="media media--' + s.cat + '">' +
           '<span class="media__photo" style="background-image:url(\'' + foto(s.id) + '\')"></span>' +
-          '<span class="card__name"></span>' +
-        '</div>' +
-        '<span class="card__place"></span>' +
-        '<span class="card__more">Conoce su historia +</span>';
+          '<span class="card__chip card__chip--' + s.cat + '"></span>' +
+          '<span class="card__body">' +
+            '<span class="card__name"></span>' +
+            '<span class="card__place"></span>' +
+            '<span class="card__more">Conoce su historia</span>' +
+          '</span>' +
+        '</div>';
+      card.querySelector('.card__chip').textContent = catById[s.cat].nombre;
       card.querySelector('.card__name').textContent = s.nombre;
       card.querySelector('.card__place').textContent = s.lugar;
       card.setAttribute('aria-label', s.nombre + '. ' + s.corto);
@@ -157,7 +164,39 @@
       revelar(card);
     });
     track.scrollLeft = 0;
+    document.getElementById('recosCount').innerHTML = '<b>' + lista.length + '</b>' + (lista.length === 1 ? 'sitio' : 'sitios');
+    progreso();
   }
+
+  /* Barra de progreso del carrusel */
+  var barra = document.getElementById('recosBar');
+  function progreso() {
+    var max = track.scrollWidth - track.clientWidth;
+    var visible = track.scrollWidth ? track.clientWidth / track.scrollWidth : 1;
+    var w = Math.max(8, Math.min(100, visible * 100));
+    barra.style.width = w + '%';
+    barra.style.marginLeft = (max > 0 ? (track.scrollLeft / max) * (100 - w) : 0) + '%';
+  }
+  track.addEventListener('scroll', progreso, { passive: true });
+  window.addEventListener('resize', progreso);
+
+  /* Arrastrar con el mouse */
+  var arrastre = null;
+  track.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    arrastre = { x: e.clientX, left: track.scrollLeft, movido: false };
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!arrastre) return;
+    var dx = e.clientX - arrastre.x;
+    if (Math.abs(dx) > 5) { arrastre.movido = true; track.classList.add('is-drag'); }
+    if (arrastre.movido) track.scrollLeft = arrastre.left - dx;
+  });
+  window.addEventListener('pointerup', function () {
+    if (!arrastre) return;
+    setTimeout(function () { track.classList.remove('is-drag'); }, 0);
+    arrastre = null;
+  });
 
   document.getElementById('prev').addEventListener('click', function () {
     track.scrollBy({ left: -track.clientWidth * 0.8, behavior: 'smooth' });
