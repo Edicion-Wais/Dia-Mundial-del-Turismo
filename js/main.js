@@ -281,4 +281,7 @@
   document.querySelectorAll('[data-open]').forEach(function (b) {
     b.addEventListener('click', function () { abrir(b.dataset.open); });
   });
+
+  // Utilidades compartidas con las fichas individuales (ficha.html)
+  window.TACHIRA = { foto: foto, categoria: function (id) { return catById[id]; }, esPropia: function (id) { return !!PROPIAS[id]; }, commons: COMMONS };
 })();
