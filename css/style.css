@@ -321,10 +321,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .recos__pre { font-size: clamp(16px, 1.7vw, 24px); font-weight: 600; line-height: 1.4; color: rgba(255,255,255,.8); max-width: 30em; }
 .recos__big {
   display: inline-block; align-self: flex-start; white-space: nowrap;
-  font-size: clamp(40px, 8vw, 120px); font-weight: 800; line-height: 1; letter-spacing: -.01em;
-  color: var(--lime);
+  font-size: clamp(34px, 7vw, 108px); font-weight: 800; line-height: 1; letter-spacing: 0;
+  color: var(--lime); text-transform: uppercase;
 }
-.recos__big b { color: #fff; font-weight: 800; position: relative; display: inline-block; }
+.recos__big b { color: #fff; font-weight: 800; font-style: italic; position: relative; display: inline-block; padding-right: .06em; }
 .recos__big b::after {
   content: ""; position: absolute; left: 2%; right: 0; bottom: -.12em; height: .1em; border-radius: 1em;
   background: linear-gradient(90deg, var(--orange), var(--coral));
