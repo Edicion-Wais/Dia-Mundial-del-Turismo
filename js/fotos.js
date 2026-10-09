@@ -18,7 +18,6 @@ window.FOTOS_COMMONS = {
   'deportivo-tachira': 'Estadio Polideportivo Pueblo Nuevo San Cristobal Estado Tachira Venezuela 1.jpg',
   'ucat': 'UCAT.jpg',
   'toro-de-la-feria': 'Plaza Monumental de Toros de Pueblo Nuevo.jpg',
-  'pan-andino': 'Pan andino 2.jpg',
   'pina-hato-de-la-virgen': 'AnanasComosusOnPlant.jpg',
   'taza-de-peltre': 'Enamel mug.jpg',
   'cesta-de-palmira': 'Artesania venezolana cesteria 001.jpg',
