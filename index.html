@@ -59,9 +59,8 @@
     <a class="hero__swipe" href="#recomendaciones">DESLIZA &gt;&gt;</a>
   </div>
   <div class="rule rule--progress" aria-hidden="true"><span id="heroProgress"></span></div>
+  <div class="geo geo--bottom" aria-hidden="true"></div>
 </section>
-
-<div class="geo" aria-hidden="true"></div>
 
 <!-- ===== RECOMENDACIONES ===== -->
 <section class="recos" id="recomendaciones">
@@ -101,17 +100,20 @@
     <p class="outro__text reveal">Cada 27 de septiembre el mundo celebra el Día Mundial del Turismo. En el Táchira lo celebramos mostrando lo que somos: montañas de niebla, aves de colores, pueblos de faroles y calles empedradas, una fe que mueve multitudes y manos que tejen, moldean el barro y hornean el pan de cada día.</p>
 
     <div class="outro__tiles reveal">
-      <button class="tile media media--lugares" data-open="pozos-de-lobatera"><span class="media__photo" style="background-image:url('img/pozos-de-lobatera.jpg')"></span>
+      <button class="tile media media--lugares" data-open="pozos-de-lobatera"><span class="media__photo" data-foto="pozos-de-lobatera"></span>
         <span>Pozos de Lobatera</span>
       </button>
-      <button class="tile media media--lugares" data-open="glamping-de-montana"><span class="media__photo" style="background-image:url('img/glamping-de-montana.jpg')"></span>
+      <button class="tile media media--lugares" data-open="glamping-de-montana"><span class="media__photo" data-foto="glamping-de-montana"></span>
         <span>Glamping de Montaña</span>
       </button>
     </div>
   </div>
-  <footer class="outro__foot">#DíaMundialDelTurismo · Táchira, Venezuela</footer>
+  <footer class="outro__foot">
+    <img src="img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340">
+    <span>#DíaMundialDelTurismo · Táchira, Venezuela</span>
+  </footer>
+  <div class="geo geo--bottom geo--flip" aria-hidden="true"></div>
 </section>
-<div class="geo geo--flip" aria-hidden="true"></div>
 
 <!-- ===== DETALLE ===== -->
 <dialog class="modal" id="modal" aria-labelledby="modalTitle">
@@ -122,10 +124,12 @@
     <h3 class="modal__title" id="modalTitle"></h3>
     <p class="modal__place" id="modalPlace"></p>
     <div class="modal__text" id="modalText"></div>
+    <p class="modal__credit" id="modalCredit" hidden></p>
   </div>
 </dialog>
 
 <script src="js/data.js"></script>
+<script src="js/fotos.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

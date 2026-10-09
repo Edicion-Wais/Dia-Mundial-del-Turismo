@@ -4,7 +4,15 @@
   var catById = {};
   CATS.forEach(function (c) { catById[c.id] = c; });
 
-  function foto(id) { return "img/" + id + ".jpg"; }
+  var COMMONS = window.FOTOS_COMMONS || {};
+  var PROPIAS = { 'peribeca': 1, 'tucusito': 1, 'basilica-san-cristobal': 1 };
+  function commonsUrl(archivo, ancho) {
+    return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(archivo.replace(/ /g, '_')) + '?width=' + ancho;
+  }
+  function foto(id, ancho) {
+    if (!PROPIAS[id] && COMMONS[id]) return commonsUrl(COMMONS[id], ancho || 900);
+    return 'img/' + id + '.jpg';
+  }
 
   /* ---------- Hero: carrusel de destinos ---------- */
   var slides = document.querySelectorAll('.hero__slide');
@@ -110,6 +118,10 @@
 
   render('todos');
 
+  document.querySelectorAll('[data-foto]').forEach(function (el) {
+    el.style.backgroundImage = "url('" + foto(el.dataset.foto) + "')";
+  });
+
   /* ---------- Detalle (modal) ---------- */
   var modal = document.getElementById('modal');
   var mMedia = document.getElementById('modalMedia');
@@ -118,7 +130,14 @@
     var s = SITIOS.filter(function (x) { return x.id === id; })[0];
     if (!s) return;
     mMedia.className = 'modal__media media media--' + s.cat;
-    mMedia.innerHTML = '<span class="media__photo" style="background-image:url(\'' + foto(s.id) + '\')"></span>';
+    mMedia.innerHTML = '<span class="media__photo" style="background-image:url(\'' + foto(s.id, 1400) + '\')"></span>';
+    var credito = document.getElementById('modalCredit');
+    if (!PROPIAS[s.id] && COMMONS[s.id]) {
+      credito.innerHTML = 'Foto: <a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(COMMONS[s.id].replace(/ /g, '_')) + '">Wikimedia Commons</a>';
+      credito.hidden = false;
+    } else {
+      credito.hidden = true;
+    }
     document.getElementById('modalCat').textContent = catById[s.cat].titulo;
     document.getElementById('modalTitle').textContent = s.nombre;
     document.getElementById('modalPlace').textContent = s.lugar;

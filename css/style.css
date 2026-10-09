@@ -38,11 +38,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* ---------- Elementos de marca ---------- */
 .geo {
-  height: calc(var(--band) + 24px);
-  background: #fff url("../img/patron.png") 0 center / auto var(--band) repeat-x;
+  position: absolute; left: 0; right: 0; z-index: 1;
+  height: var(--band);
+  background: url("../img/patron.png") 0 bottom / auto 100% repeat-x;
+  pointer-events: none;
 }
-.geo--flip { background-position: 40% center; }
-.geo--top { position: absolute; top: 0; left: 0; right: 0; }
+.geo--top { top: 0; }
+.geo--bottom { bottom: 0; }
+.geo--flip { background-position: 37% bottom; }
 
 /* Aparición al hacer scroll */
 .reveal { opacity: 0; transform: translateY(36px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
@@ -84,7 +87,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero {
   position: relative;
   min-height: 100svh;
-  padding: calc(var(--band) + 24px + 26px) var(--gutter) 40px;
+  padding: calc(var(--band) + 26px) var(--gutter) calc(var(--band) + 36px);
   display: grid;
   grid-template-rows: auto 1fr auto auto;
   gap: 24px;
@@ -103,7 +106,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero__slide.is-active { opacity: 1; transform: scale(1); }
 /* Velo para que el título se lea sobre cualquier foto */
 .hero__shade {
-  position: absolute; inset: 0; z-index: -1;
+  position: absolute; inset: var(--band) 0; z-index: -1;
   background:
     linear-gradient(90deg, rgba(11,19,80,.82) 0%, rgba(11,19,80,.55) 45%, rgba(11,19,80,.15) 100%),
     linear-gradient(180deg, rgba(11,19,80,.35) 0%, rgba(11,19,80,0) 30%, rgba(11,19,80,0) 60%, rgba(11,19,80,.85) 100%);
@@ -116,7 +119,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   position: relative;
 }
 .nav__brand { display: flex; align-items: center; }
-.nav__brand img { display: block; height: clamp(34px, 3.6vw, 50px); width: auto; }
+.nav__brand img { display: block; height: clamp(46px, 5vw, 76px); width: auto; }
 .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--coral); box-shadow: 8px 0 0 var(--orange); margin-right: 8px; }
 .nav__links { display: flex; gap: clamp(18px, 5vw, 60px); margin: 0 auto; font-size: 15px; font-weight: 600; }
 .nav__links a { position: relative; padding: 4px 0; }
@@ -263,7 +266,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .recos__rules span:last-child { background: linear-gradient(270deg, var(--cyan), rgba(18,199,217,0)); }
 
 /* ---------- CIERRE ---------- */
-.outro { position: relative; padding: 72px var(--gutter) 32px; isolation: isolate; min-height: 90svh; display: flex; flex-direction: column; background: var(--navy); color: #fff; overflow: hidden; }
+.outro { position: relative; padding: 72px var(--gutter) calc(var(--band) + 28px); isolation: isolate; min-height: 90svh; display: flex; flex-direction: column; background: var(--navy); color: #fff; overflow: hidden; }
 .outro__slides { position: absolute; inset: 0; z-index: -2; }
 .outro__slide {
   position: absolute; inset: 0;
@@ -273,7 +276,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .outro__slide.is-active { opacity: 1; transform: scale(1); }
 .outro__shade {
-  position: absolute; inset: 0; z-index: -1;
+  position: absolute; inset: 0 0 var(--band); z-index: -1;
   background:
     linear-gradient(90deg, rgba(11,19,80,.85) 0%, rgba(11,19,80,.5) 50%, rgba(11,19,80,.2) 100%),
     linear-gradient(180deg, rgba(11,19,80,.5) 0%, rgba(11,19,80,0) 35%, rgba(11,19,80,.6) 100%);
@@ -297,7 +300,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .tile:hover span:last-child { background: var(--coral); }
 .tile:hover .media__photo { transform: scale(1.06); }
-.outro__foot { text-align: right; font-size: 14px; font-weight: 700; margin-top: 32px; color: var(--lime); }
+.outro__foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 14px; font-weight: 700; margin-top: 36px; color: var(--lime); }
+.outro__foot img { height: clamp(44px, 4.6vw, 68px); width: auto; display: block; }
 
 /* ---------- FICHA (MODAL) ---------- */
 .modal {
@@ -323,6 +327,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .modal__place { margin: 0 0 18px; font-size: 15px; font-style: italic; color: var(--orange); }
 .modal__text { padding-top: 18px; background: linear-gradient(90deg, var(--orange), rgba(242,106,33,0)) top left / 60% 4px no-repeat; }
 .modal__text p { margin: 0 0 14px; font-size: 15px; line-height: 1.7; color: #2a3170; }
+.modal__credit { margin: 6px 0 0; font-size: 12px; color: #6b70a0; }
+.modal__credit a { color: var(--orange); text-decoration: underline; }
 .modal__close {
   position: absolute; top: 12px; right: 14px; z-index: 3;
   width: 42px; height: 42px; border-radius: 50%; font-size: 28px; line-height: 1;
@@ -354,7 +360,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .hero__index { display: none; }
   .carousel__track { grid-auto-columns: 70vw; }
   .outro__tiles { grid-template-columns: 1fr; }
-  .outro__foot { text-align: left; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
