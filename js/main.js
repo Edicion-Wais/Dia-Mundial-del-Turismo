@@ -5,7 +5,7 @@
   CATS.forEach(function (c) { catById[c.id] = c; });
 
   var COMMONS = window.FOTOS_COMMONS || {};
-  var PROPIAS = { 'peribeca': 1, 'tucusito': 1, 'basilica-san-cristobal': 1 };
+  var PROPIAS = { 'peribeca': 1, 'tucusito': 1, 'basilica-san-cristobal': 1, 'glamping-de-montana': 1 };
   function commonsUrl(archivo, ancho) {
     return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(archivo.replace(/ /g, '_')) + '?width=' + ancho;
   }
@@ -14,26 +14,82 @@
     return 'img/' + id + '.jpg';
   }
 
-  /* ---------- Hero: carrusel de destinos ---------- */
-  var slides = document.querySelectorAll('.hero__slide');
-  var indexBtns = document.querySelectorAll('.hero__index button');
-  var progress = document.getElementById('heroProgress');
-  var current = 0, timer;
-
-  function showSlide(i) {
-    current = i;
-    slides.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
-    indexBtns.forEach(function (b, n) { b.classList.toggle('is-active', n === i); });
-    progress.style.left = (i * 37) + '%';
-  }
-  function autoplay() {
-    clearInterval(timer);
-    timer = setInterval(function () { showSlide((current + 1) % slides.length); }, 6500);
-  }
-  indexBtns.forEach(function (b) {
-    b.addEventListener('click', function () { showSlide(+b.dataset.slide); autoplay(); });
+  /* ---------- Título letra por letra ---------- */
+  var n = 0;
+  document.querySelectorAll('[data-split]').forEach(function (el) {
+    var texto = el.textContent;
+    el.textContent = '';
+    el.setAttribute('aria-label', texto);
+    texto.split('').forEach(function (ch) {
+      var l = document.createElement('span');
+      l.className = 'letra';
+      l.setAttribute('aria-hidden', 'true');
+      l.style.setProperty('--i', n++);
+      l.textContent = ch;
+      el.appendChild(l);
+    });
   });
-  autoplay();
+
+  /* ---------- Recuento: las fotos del catálogo se van sumando ---------- */
+  var montaje = document.querySelector('.montaje');
+  var collage = document.getElementById('collage');
+  var fondo = document.getElementById('montajeFondo');
+  var conFoto = SITIOS.filter(function (s) { return PROPIAS[s.id]; }).concat(SITIOS.filter(function (s) { return !PROPIAS[s.id] && COMMONS[s.id]; }));
+  // posiciones repartidas alrededor del título (x %, y %, ancho, giro)
+  var POS = [
+    [14, 22, 17, -7], [86, 20, 15, 6], [30, 78, 16, 5], [72, 80, 18, -5],
+    [8, 58, 14, 4], [92, 56, 16, -6], [50, 14, 15, 3], [50, 88, 14, -3],
+    [24, 42, 13, -4], [77, 40, 14, 7], [38, 30, 12, 8], [63, 66, 13, -8],
+    [18, 88, 13, 6], [84, 90, 12, -4], [6, 12, 12, -9], [95, 10, 12, 9],
+    [40, 60, 12, -6], [60, 28, 12, 5], [70, 12, 12, -3], [28, 10, 11, 4],
+    [12, 76, 11, -2], [90, 74, 11, 3], [46, 44, 13, 2], [56, 50, 12, -7]
+  ];
+  var fotosR = conFoto.slice(0, POS.length).map(function (s, i) {
+    var pos = POS[i];
+    var el = document.createElement('div');
+    el.className = 'foto-r media--' + s.cat;
+    el.style.left = pos[0] + '%';
+    el.style.top = pos[1] + '%';
+    el.style.width = 'clamp(110px, ' + pos[2] + 'vw, 260px)';
+    el.style.aspectRatio = i % 3 === 0 ? '3 / 4' : '4 / 3';
+    el.style.setProperty('--r', pos[3] + 'deg');
+    el.innerHTML = '<span style="background-image:url(\'' + foto(s.id, 500) + '\')"></span>';
+    collage.appendChild(el);
+    return { el: el, url: foto(s.id, 1200) };
+  });
+  var ultimoFondo = -1;
+
+  /* ---------- Scroll: entrada, recuento y paso a azul ---------- */
+  var intro = document.getElementById('intro');
+  function clamp(v) { return Math.min(1, Math.max(0, v)); }
+  function alScroll() {
+    var vh = window.innerHeight;
+    if (intro) intro.style.setProperty('--p', clamp(window.scrollY / (intro.offsetHeight * 0.8)).toFixed(3));
+    if (!montaje) return;
+    var r = montaje.getBoundingClientRect();
+    var total = montaje.offsetHeight - vh;
+    var p = clamp(-r.top / total);
+    montaje.style.setProperty('--p', p.toFixed(3));
+    if (r.top < vh * 0.5) montaje.classList.add('is-on');
+    // fotos: aparecen entre el 8% y el 72% del recorrido
+    var cuantas = Math.round(clamp((p - 0.08) / 0.64) * fotosR.length);
+    fotosR.forEach(function (f, i) { f.el.classList.toggle('is-on', i < cuantas); });
+    var idx = Math.min(fotosR.length - 1, Math.max(0, cuantas - 1));
+    if (cuantas > 0 && idx !== ultimoFondo) {
+      ultimoFondo = idx;
+      fondo.style.backgroundImage = "url('" + fotosR[idx].url + "')";
+    }
+    // todo azul al final
+    montaje.style.setProperty('--azul', clamp((p - 0.78) / 0.17).toFixed(3));
+  }
+  var pendiente = false;
+  window.addEventListener('scroll', function () {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(function () { alScroll(); pendiente = false; });
+  }, { passive: true });
+  window.addEventListener('resize', alScroll);
+  alScroll();
 
   /* ---------- Cierre: mismas fotos en fundido ---------- */
   var outroSlides = document.querySelectorAll('.outro__slide');
@@ -53,22 +109,6 @@
     : null;
   function revelar(el) {
     if (observer) observer.observe(el); else el.classList.add('is-visible');
-  }
-  document.querySelectorAll('.hero__title-main .line').forEach(revelar);
-
-  /* La entrada se desvanece y se aleja al hacer scroll */
-  var intro = document.getElementById('intro');
-  if (intro) {
-    var ticking = false;
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        var p = Math.min(1, Math.max(0, window.scrollY / (intro.offsetHeight * 0.8)));
-        intro.style.setProperty('--p', p.toFixed(3));
-        ticking = false;
-      });
-    }, { passive: true });
   }
 
   document.querySelectorAll('.reveal').forEach(function (el, n) {
@@ -94,9 +134,6 @@
   function render(cat) {
     tabs.querySelectorAll('button').forEach(function (b) {
       b.setAttribute('aria-selected', b.dataset.cat === cat ? 'true' : 'false');
-    });
-    document.querySelectorAll('.nav__links a').forEach(function (a) {
-      a.classList.toggle('is-active', a.dataset.goto === cat);
     });
     var lista = cat === 'todos' ? SITIOS : SITIOS.filter(function (s) { return s.cat === cat; });
     track.innerHTML = '';

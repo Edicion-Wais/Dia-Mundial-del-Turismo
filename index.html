@@ -35,45 +35,35 @@
   <div class="geo geo--bottom intro__geo" aria-hidden="true"></div>
 </section>
 
-<!-- ===== HERO ===== -->
-<section class="hero" id="inicio">
-  <div class="hero__slides" aria-hidden="true">
-    <div class="hero__slide is-active" style="background-image:url('img/hero-1.jpg')"></div>
-    <div class="hero__slide" style="background-image:url('img/hero-2.jpg');background-position:62% center"></div>
-    <div class="hero__slide" style="background-image:url('img/hero-3.jpg')"></div>
-  </div>
-  <div class="hero__shade" aria-hidden="true"></div>
-
-  <header class="nav">
-    <a class="nav__brand" href="#inicio"><img src="img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340"></a>
-    <nav class="nav__links" aria-label="Secciones">
-      <a href="#recomendaciones" data-goto="naturaleza">Naturaleza</a>
-      <a href="#recomendaciones" data-goto="lugares" class="is-active">Lugares</a>
-      <a href="#recomendaciones" data-goto="tradicion">Tradición</a>
-    </nav>
-  </header>
-
-  <div class="hero__content">
-    <p class="pill reveal">Día Mundial del Turismo</p>
-    <h1 class="hero__title">
-      <span class="hero__title-main"><span class="line"><span class="reveal-up">CATÁLOGO</span></span><span class="line"><span class="reveal-up" style="--d:.15s">TURÍSTICO</span></span></span>
-      <span class="hero__title-sub reveal" style="--d:.45s">DEL ESTADO TÁCHIRA</span>
+<!-- ===== TÍTULO + RECUENTO DE IMÁGENES ===== -->
+<section class="montaje" id="inicio">
+  <div class="montaje__sticky">
+    <div class="montaje__fondo" id="montajeFondo" aria-hidden="true"></div>
+    <div class="montaje__collage" id="collage" aria-hidden="true"></div>
+    <div class="montaje__velo" aria-hidden="true"></div>
+    <h1 class="montaje__titulo" id="montajeTitulo">
+      <span class="montaje__l1" data-split>CATÁLOGO</span>
+      <span class="montaje__l2" data-split>TURÍSTICO</span>
+      <span class="montaje__l3" data-split>DEL ESTADO TÁCHIRA</span>
     </h1>
+    <div class="montaje__azul" aria-hidden="true"></div>
   </div>
+</section>
 
-  <ul class="hero__index" aria-label="Destinos destacados">
-    <li><button data-slide="0" class="is-active">Peribeca</button></li>
-    <li><button data-slide="1">Tucusito</button></li>
-    <li><button data-slide="2">San Cristóbal</button></li>
-  </ul>
-
-  <div class="hero__blurbs reveal" style="--d:.7s">
-    <p>Peribeca es un pueblito de calles empedradas, casas de colores y artesanía en el municipio Independencia, a media hora de la capital.</p>
-    <p>Los tucusitos, como llamamos a los colibríes, son joyas voladoras que polinizan los bosques nublados y cafetales del Táchira.</p>
-    <p>San Cristóbal, fundada en 1561, es la capital del estado: una ciudad de templos, plazas y monumentos entre montañas.</p>
-    <a class="hero__swipe" href="#recomendaciones">DESLIZA &gt;&gt;</a>
-  </div>
-  <div class="rule rule--progress" aria-hidden="true"><span id="heroProgress"></span></div>
+<!-- ===== EXPLORA ===== -->
+<section class="explora" id="explora">
+  <p class="pill reveal">Día Mundial del Turismo</p>
+  <nav class="explora__links" aria-label="Explora el Táchira">
+    <a class="reveal" href="#recomendaciones" data-goto="naturaleza"><span>Naturaleza</span></a>
+    <i class="reveal" style="--d:.1s" aria-hidden="true"></i>
+    <a class="reveal" style="--d:.15s" href="#recomendaciones" data-goto="lugares"><span>Lugares</span></a>
+    <i class="reveal" style="--d:.25s" aria-hidden="true"></i>
+    <a class="reveal" style="--d:.3s" href="#recomendaciones" data-goto="tradicion"><span>Tradición</span></a>
+  </nav>
+  <figure class="explora__cita reveal" style="--d:.45s">
+    <blockquote>«La aldea me dio su alma. Yo di mi alma a la aldea.»</blockquote>
+    <figcaption>Manuel Felipe Rugeles · poeta tachirense</figcaption>
+  </figure>
   <div class="geo geo--bottom" aria-hidden="true"></div>
 </section>
 
