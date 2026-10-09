@@ -280,6 +280,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .pueblo.is-dia .pueblo__hint-noche { display: inline; }
 .pueblo:hover .pueblo__hint { background: rgba(242,106,33,.85); }
 
+.pueblo__lugar {
+  position: absolute; z-index: 2; left: 50%; bottom: calc(var(--band) + 4px); transform: translateX(-50%);
+  text-shadow: 0 0 6px rgba(155,212,55,.9);
+  font-size: clamp(10px, 1vw, 13px); font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--navy); white-space: nowrap; pointer-events: none; opacity: .85;
+}
 .p-cielo { opacity: 0; transition: opacity 1.4s ease; }
 .p-estrellas { transition: opacity 1.2s ease; }
 .p-sol-mov { transition: transform 1.6s cubic-bezier(.3,.7,.2,1); }
