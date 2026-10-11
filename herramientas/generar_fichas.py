@@ -38,7 +38,6 @@ FICHA_HTML = '''<!-- ===== FICHA DEL SITIO (solo en ficha.html) ===== -->
       <p class="ficha__lugar f-rev" style="--d:.2s"></p>
       <p class="ficha__corto f-rev" style="--d:.3s"></p>
       <div class="ficha__texto f-rev" style="--d:.4s"></div>
-      <p class="ficha__credito f-rev" style="--d:.45s"></p>
       <a class="ficha__cta f-rev" style="--d:.5s" href="../">Ver más del catálogo</a>
     </div>
   </div>

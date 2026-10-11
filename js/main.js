@@ -253,13 +253,6 @@
     if (!s) return;
     mMedia.className = 'modal__media media media--' + s.cat;
     mMedia.innerHTML = '<span class="media__photo" style="background-image:url(\'' + foto(s.id, 1400) + '\')"></span>';
-    var credito = document.getElementById('modalCredit');
-    if (!PROPIAS[s.id] && COMMONS[s.id]) {
-      credito.innerHTML = 'Foto: <a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(COMMONS[s.id].replace(/ /g, '_')) + '">Wikimedia Commons</a>';
-      credito.hidden = false;
-    } else {
-      credito.hidden = true;
-    }
     document.getElementById('modalCat').textContent = catById[s.cat].titulo;
     document.getElementById('modalTitle').textContent = s.nombre;
     document.getElementById('modalPlace').textContent = s.lugar;
@@ -270,11 +263,13 @@
       el.textContent = p;
       txt.appendChild(el);
     });
+    document.documentElement.classList.add('con-ficha');
     if (!modal.open) {
       if (typeof modal.showModal === 'function') modal.showModal();
       else modal.setAttribute('open', '');
     }
     modal.querySelector('.modal__body').scrollTop = 0;
+    modal.scrollTop = 0;
     if (!desdeHistorial) ponerUrl(BASE + s.id + '/', s.id);
     document.title = s.nombre + ' · Catálogo Turístico del Estado Táchira';
   }
@@ -283,6 +278,7 @@
     else { modal.removeAttribute('open'); alCerrar(); }
   }
   function alCerrar() {
+    document.documentElement.classList.remove('con-ficha');
     document.title = TITULO;
     if (!desdeHistorial && location.pathname !== INICIO) ponerUrl(INICIO, null);
   }

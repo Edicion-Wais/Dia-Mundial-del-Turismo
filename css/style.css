@@ -475,7 +475,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .modal:not([open]) { display: none; }
 .modal::backdrop { background: rgba(11,19,80,.8); backdrop-filter: blur(4px); }
-.modal[open] { animation: rise .35s both; }
 .modal__media { min-height: 100%; }
 .modal__body { padding: 44px 38px 36px; overflow-y: auto; max-height: calc(100svh - 32px); border-top: 8px solid var(--lime); }
 .modal__cat {
@@ -488,8 +487,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .modal__place { margin: 0 0 18px; font-size: 15px; font-style: italic; color: var(--orange); }
 .modal__text { padding-top: 18px; background: linear-gradient(90deg, var(--orange), rgba(242,106,33,0)) top left / 60% 4px no-repeat; }
 .modal__text p { margin: 0 0 14px; font-size: 15px; line-height: 1.7; color: #2a3170; }
-.modal__credit { margin: 6px 0 0; font-size: 12px; color: #6b70a0; }
-.modal__credit a { color: var(--orange); text-decoration: underline; }
 .modal__close {
   position: absolute; top: 12px; left: 14px; z-index: 3;
   width: 42px; height: 42px; border-radius: 50%; font-size: 28px; line-height: 1;
@@ -498,11 +495,30 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .modal__close:hover { background: var(--coral); }
 .modal__body { position: relative; }
-.modal__logo {
-  display: block; margin: -18px -10px 14px auto; width: clamp(120px, 12vw, 150px); aspect-ratio: 1224 / 340;
-  background: var(--navy);
+.modal__logo { display: block; margin: -18px -10px 14px auto; width: clamp(120px, 12vw, 150px); }
+.modal__logo i {
+  display: block; width: 100%; aspect-ratio: 1224 / 340; background: var(--navy);
   -webkit-mask: url("../img/logo-camara-turismo.png") center / contain no-repeat;
           mask: url("../img/logo-camara-turismo.png") center / contain no-repeat;
+}
+
+/* Fondo fijo mientras la ficha está abierta */
+html.con-ficha, html.con-ficha body { overflow: hidden; }
+.modal, .modal__body { overscroll-behavior: contain; }
+
+/* Botón «Ver más del catálogo» fijo abajo al centro, flotando */
+.modal[open] { animation: fichaIn .35s ease both; }
+@keyframes fichaIn { from { opacity: 0; } to { opacity: 1; } }
+.modal__body { padding-bottom: 110px !important; }
+.modal__vermas {
+  position: fixed !important; z-index: 5; left: 50%; bottom: max(22px, env(safe-area-inset-bottom));
+  margin: 0 !important; transform: translateX(-50%); white-space: nowrap;
+  box-shadow: 0 12px 30px rgba(11,19,80,.45), 0 0 0 3px rgba(255,255,255,.9);
+  animation: flotar 2.8s ease-in-out infinite;
+}
+@keyframes flotar {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -8px); }
 }
 .modal__catalogo { margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--lime-dark); }
 .modal__cat { clear: none; }
@@ -538,7 +554,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .outro__tiles { grid-column: 1; grid-row: auto; gap: 14px; background: var(--navy); padding: 14px; border-radius: var(--radius); box-shadow: 0 18px 40px rgba(0,0,0,.35); }
   .modal { grid-template-columns: 1fr; overflow-y: auto; }
   .modal__media { aspect-ratio: 16 / 10; min-height: 0; }
-  .modal__body { max-height: none; padding: 28px 22px 28px; }
+  .modal__body { max-height: none; padding: 28px 22px 28px; position: static; }
+  .modal__logo {
+    position: absolute; z-index: 4; top: 16px; right: 0; margin: 0; width: auto;
+    padding: 10px 16px 10px 18px; background: var(--navy);
+    border-radius: 14px 0 0 14px; box-shadow: -6px 8px 24px rgba(0,0,0,.3);
+    animation: logoEntra .7s cubic-bezier(.2,.8,.2,1) .25s both;
+  }
+  .modal__logo i { width: 118px; background: #fff; }
+  .modal__logo::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; border-radius: 14px 0 0 14px; background: var(--orange); }
+  @keyframes logoEntra { from { transform: translateX(105%); } to { transform: none; } }
 }
 @media (max-width: 560px) {
   .explora__cita br { display: none; }

@@ -25,13 +25,6 @@
     el.textContent = p;
     cuerpo.appendChild(el);
   });
-  var credito = seccion.querySelector('.ficha__credito');
-  if (!T.esPropia(sitio.id) && T.commons[sitio.id]) {
-    credito.innerHTML = 'Foto: <a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:' +
-      encodeURIComponent(T.commons[sitio.id].replace(/ /g, '_')) + '">Wikimedia Commons</a>';
-  } else {
-    credito.remove();
-  }
 
   // Aparición al hacer scroll
   var obs = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
