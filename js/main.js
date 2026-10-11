@@ -270,13 +270,44 @@
       el.textContent = p;
       txt.appendChild(el);
     });
-    if (typeof modal.showModal === 'function') modal.showModal();
-    else modal.setAttribute('open', '');
+    if (!modal.open) {
+      if (typeof modal.showModal === 'function') modal.showModal();
+      else modal.setAttribute('open', '');
+    }
+    modal.querySelector('.modal__body').scrollTop = 0;
+    if (!desdeHistorial) ponerUrl(BASE + s.id + '/', s.id);
+    document.title = s.nombre + ' · Catálogo Turístico del Estado Táchira';
   }
   function cerrar() {
     if (typeof modal.close === 'function') modal.close();
-    else modal.removeAttribute('open');
+    else { modal.removeAttribute('open'); alCerrar(); }
   }
+  function alCerrar() {
+    document.title = TITULO;
+    if (!desdeHistorial && location.pathname !== INICIO) ponerUrl(INICIO, null);
+  }
+  modal.addEventListener('close', alCerrar);
+
+  /* Cada ficha tiene su propia dirección: dominio/<sitio>/ */
+  var TITULO = document.title;
+  var BASE = new URL(window.RAIZ || './', location.href).pathname;
+  var INICIO = location.pathname;  // página donde se abrió (catálogo o ficha)
+  var desdeHistorial = false;
+  function ponerUrl(ruta, id) {
+    try { history.pushState({ ficha: id }, '', ruta); } catch (e) { /* p. ej. al abrir el archivo localmente */ }
+  }
+  window.addEventListener('popstate', function () {
+    var m = location.pathname.slice(BASE.length).replace(/\/$/, '');
+    desdeHistorial = true;
+    if (m && SITIOS.some(function (x) { return x.id === m; }) && !window.FICHA_ID) abrir(m);
+    else if (modal.open) cerrar();
+    desdeHistorial = false;
+  });
+
+  document.getElementById('modalVerMas').addEventListener('click', function () {
+    cerrar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
   document.getElementById('modalClose').addEventListener('click', cerrar);
   modal.addEventListener('click', function (e) { if (e.target === modal) cerrar(); });
 

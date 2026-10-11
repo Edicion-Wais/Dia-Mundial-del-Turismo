@@ -62,7 +62,6 @@ def generar_pagina(sitio):
         ('<script src="js/data.js"></script>',
          '<script>window.RAIZ = "../"; window.FICHA_ID = %s;</script>\n<script src="js/data.js"></script>' % json.dumps(sitio['id'])),
         ('<script src="js/main.js"></script>', '<script src="js/main.js"></script>\n<script src="js/ficha.js"></script>'),
-        ('<span class="outro__tag">', WAIS_HTML.strip('\n') + '\n    <span class="outro__tag">'),
     ]
     for a, b in reemplazos:
         if a not in s:
