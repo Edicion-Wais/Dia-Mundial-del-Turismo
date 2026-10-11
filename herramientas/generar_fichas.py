@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Genera la extensión de fichas individuales y sus códigos QR.
 
-1. Crea ficha.html a partir de index.html (misma página, con la ficha del
-   sitio entre el título del catálogo y la frase del poeta). index.html no
-   se modifica.
-2. Crea una tarjeta QR imprimible por sitio en qr/<id>.png que abre
-   <BASE>/ficha.html?s=<id>.
+1. Crea una carpeta por sitio (<id>/index.html) a partir de index.html:
+   la misma página con la ficha del sitio entre el título del catálogo y la
+   frase del poeta. Así cada ficha tiene su propia dirección:
+   <BASE>/<id>/   (p. ej. https://dominio.com/pauji-copete-de-piedra/)
+   index.html no se modifica.
+2. Crea una tarjeta QR imprimible por sitio en qr/<id>.png con esa dirección.
 
 Uso (desde la raíz del repositorio):
     python3 herramientas/generar_fichas.py --base https://tu-dominio.vercel.app
@@ -13,7 +14,7 @@ Uso (desde la raíz del repositorio):
 
 Requiere: pip install qrcode pillow
 """
-import argparse, json, os, re, subprocess, sys
+import argparse, html, json, os, re, subprocess, sys
 import qrcode
 from qrcode.constants import ERROR_CORRECT_H
 from PIL import Image, ImageDraw, ImageFont
@@ -24,39 +25,57 @@ NAVY, LIME, ORANGE = (11, 19, 80), (132, 194, 37), (242, 106, 33)
 
 FICHA_HTML = '''<!-- ===== FICHA DEL SITIO (solo en ficha.html) ===== -->
 <section class="ficha" id="ficha" aria-label="Ficha del sitio">
+  <a class="ficha__logo" href="../" aria-label="Cámara de Turismo Táchira · ir al catálogo"><img src="../img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340"></a>
   <div class="ficha__intro f-rev"><p>Conoce su historia</p></div>
   <div class="ficha__grid">
     <div class="ficha__marco f-rev">
       <div class="ficha__media media"><span class="media__photo ficha__foto"></span></div>
     </div>
     <div class="ficha__info">
+      <p class="ficha__catalogo f-rev">Catálogo Turístico Táchira</p>
       <p class="ficha__cat f-rev"></p>
       <h2 class="ficha__titulo f-rev" style="--d:.1s"></h2>
       <p class="ficha__lugar f-rev" style="--d:.2s"></p>
       <p class="ficha__corto f-rev" style="--d:.3s"></p>
       <div class="ficha__texto f-rev" style="--d:.4s"></div>
       <p class="ficha__credito f-rev" style="--d:.45s"></p>
-      <a class="ficha__cta f-rev" style="--d:.5s" href="#recomendaciones">Descubre más del Táchira</a>
+      <a class="ficha__cta f-rev" style="--d:.5s" href="../">Ver más del catálogo</a>
     </div>
   </div>
 </section>
 
 '''
 
-def generar_html():
+WAIS_HTML = '''
+    <a class="outro__wais" href="https://www.instagram.com/waisdigital/" target="_blank" rel="noopener">
+      <span>Developed by</span><img src="../img/logo-wais.png" alt="WAIS" width="600" height="168">
+    </a>'''
+
+def generar_pagina(sitio):
+    """Devuelve el HTML de la ficha de un sitio (vive en <id>/index.html)."""
     s = open(os.path.join(RAIZ, 'index.html'), encoding='utf-8').read()
+    titulo = '%s · Catálogo Turístico del Estado Táchira' % sitio['nombre']
     reemplazos = [
         ('<link rel="stylesheet" href="css/style.css">',
          '<link rel="stylesheet" href="css/style.css">\n<link rel="stylesheet" href="css/ficha.css">'),
         ('<!-- ===== EXPLORA ===== -->', FICHA_HTML + '<!-- ===== EXPLORA ===== -->'),
+        ('<script src="js/data.js"></script>',
+         '<script>window.RAIZ = "../"; window.FICHA_ID = %s;</script>\n<script src="js/data.js"></script>' % json.dumps(sitio['id'])),
         ('<script src="js/main.js"></script>', '<script src="js/main.js"></script>\n<script src="js/ficha.js"></script>'),
+        ('<span class="outro__tag">', WAIS_HTML.strip('\n') + '\n    <span class="outro__tag">'),
     ]
     for a, b in reemplazos:
         if a not in s:
             sys.exit('No se encontró en index.html: ' + a)
         s = s.replace(a, b, 1)
+    # rutas relativas: la ficha está una carpeta más abajo
+    s = re.sub(r'(href|src|content)="(css|js|img)/', r'\1="../\2/', s)
+    s = re.sub(r'<title>.*?</title>', '<title>%s</title>' % html.escape(titulo), s, count=1)
+    s = re.sub(r'(<meta property="og:title" content=")[^"]*', r'\g<1>' + html.escape(sitio['nombre']), s, count=1)
+    s = re.sub(r'(<meta name="description" content=")[^"]*', r'\g<1>' + html.escape(sitio['corto']), s, count=1)
+    s = re.sub(r'(<meta property="og:description" content=")[^"]*', r'\g<1>' + html.escape(sitio['corto']), s, count=1)
     s = s.replace('<!DOCTYPE html>', '<!DOCTYPE html>\n<!-- Archivo generado por herramientas/generar_fichas.py a partir de index.html. No editar a mano. -->', 1)
-    open(os.path.join(RAIZ, 'ficha.html'), 'w', encoding='utf-8').write(s)
+    return s
 
 def leer_sitios():
     js = 'global.window={};require(%s);console.log(JSON.stringify({c:window.CATEGORIAS,s:window.SITIOS}))' % json.dumps(os.path.join(RAIZ, 'js', 'data.js'))
@@ -122,17 +141,21 @@ def tarjeta(sitio, cat, url, destino):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--base', required=True, help='Dirección pública de la web, p. ej. https://dia-mundial-del-turismo.vercel.app')
-    ap.add_argument('--solo', nargs='*', help='IDs de los sitios a generar (por defecto, todos)')
+    ap.add_argument('--solo', nargs='*', help='IDs de los sitios cuyo QR se genera (por defecto, todos)')
     a = ap.parse_args()
-    generar_html()
     sitios, cats = leer_sitios()
+    for s in sitios:  # páginas de todas las fichas
+        carpeta = os.path.join(RAIZ, s['id'])
+        os.makedirs(carpeta, exist_ok=True)
+        open(os.path.join(carpeta, 'index.html'), 'w', encoding='utf-8').write(generar_pagina(s))
+    print('%d fichas generadas (<id>/index.html)' % len(sitios))
     ids = set(a.solo) if a.solo else None
     os.makedirs(os.path.join(RAIZ, 'qr'), exist_ok=True)
     n = 0
     for s in sitios:
         if ids and s['id'] not in ids:
             continue
-        url = '%s/ficha.html?s=%s' % (a.base.rstrip('/'), s['id'])
+        url = '%s/%s/' % (a.base.rstrip('/'), s['id'])
         tarjeta(s, cats[s['cat']], url, os.path.join(RAIZ, 'qr', s['id'] + '.png'))
         print(url); n += 1
     print('%d QR generados en qr/' % n)

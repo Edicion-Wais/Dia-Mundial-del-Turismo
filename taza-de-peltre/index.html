@@ -4,21 +4,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo Turístico del Estado Táchira · Día Mundial del Turismo</title>
-<meta name="description" content="Celebra el Día Mundial del Turismo en el Táchira: naturaleza, monumentos, fe, tradiciones y sabores de los Andes venezolanos con su historia.">
+<title>Taza de Peltre · Catálogo Turístico del Estado Táchira</title>
+<meta name="description" content="La taza esmaltada del café recién colado en las mañanas frías de la montaña.">
 <meta name="theme-color" content="#84C225">
 
-<meta property="og:title" content="Catálogo Turístico del Estado Táchira">
-<meta property="og:description" content="Naturaleza, monumentos, fe, tradiciones y sabores de los Andes venezolanos.">
+<meta property="og:title" content="Taza de Peltre">
+<meta property="og:description" content="La taza esmaltada del café recién colado en las mañanas frías de la montaña.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="img/hero-1.webp">
-<link rel="preload" as="image" href="img/logo-camara-turismo.png">
+<meta property="og:image" content="../img/hero-1.webp">
+<link rel="preload" as="image" href="../img/logo-camara-turismo.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/ficha.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ficha.css">
 </head>
 <body>
 
@@ -28,7 +28,7 @@
   <div class="intro__glow" aria-hidden="true"></div>
   <div class="intro__stage">
     <span class="intro__line" aria-hidden="true"></span>
-    <img class="intro__logo" src="img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340">
+    <img class="intro__logo" src="../img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340">
     <p class="intro__kicker">Día Mundial del Turismo</p>
   </div>
   <a class="intro__cue" href="#inicio" aria-label="Desliza para descubrir">
@@ -58,19 +58,21 @@
 
 <!-- ===== FICHA DEL SITIO (solo en ficha.html) ===== -->
 <section class="ficha" id="ficha" aria-label="Ficha del sitio">
+  <a class="ficha__logo" href="../" aria-label="Cámara de Turismo Táchira · ir al catálogo"><img src="../img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340"></a>
   <div class="ficha__intro f-rev"><p>Conoce su historia</p></div>
   <div class="ficha__grid">
     <div class="ficha__marco f-rev">
       <div class="ficha__media media"><span class="media__photo ficha__foto"></span></div>
     </div>
     <div class="ficha__info">
+      <p class="ficha__catalogo f-rev">Catálogo Turístico Táchira</p>
       <p class="ficha__cat f-rev"></p>
       <h2 class="ficha__titulo f-rev" style="--d:.1s"></h2>
       <p class="ficha__lugar f-rev" style="--d:.2s"></p>
       <p class="ficha__corto f-rev" style="--d:.3s"></p>
       <div class="ficha__texto f-rev" style="--d:.4s"></div>
       <p class="ficha__credito f-rev" style="--d:.45s"></p>
-      <a class="ficha__cta f-rev" style="--d:.5s" href="#recomendaciones">Descubre más del Táchira</a>
+      <a class="ficha__cta f-rev" style="--d:.5s" href="../">Ver más del catálogo</a>
     </div>
   </div>
 </section>
@@ -315,10 +317,13 @@
 
   </div>
   <footer class="outro__foot">
-    <img src="img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340">
+    <img src="../img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340">
     <a class="outro__ig" href="https://www.instagram.com/camaraturismotachira/" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg>
       @camaraturismotachira
+    </a>
+        <a class="outro__wais" href="https://www.instagram.com/waisdigital/" target="_blank" rel="noopener">
+      <span>Developed by</span><img src="../img/logo-wais.png" alt="WAIS" width="600" height="168">
     </a>
     <span class="outro__tag">#DíaMundialDelTurismo · Táchira, Venezuela</span>
   </footer>
@@ -338,9 +343,10 @@
   </div>
 </dialog>
 
-<script src="js/data.js"></script>
-<script src="js/fotos.js"></script>
-<script src="js/main.js"></script>
-<script src="js/ficha.js"></script>
+<script>window.RAIZ = "../"; window.FICHA_ID = "taza-de-peltre";</script>
+<script src="../js/data.js"></script>
+<script src="../js/fotos.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/ficha.js"></script>
 </body>
 </html>

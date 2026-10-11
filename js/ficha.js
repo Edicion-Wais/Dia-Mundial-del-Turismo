@@ -5,7 +5,7 @@
   var seccion = document.getElementById('ficha');
   if (!seccion || !window.TACHIRA) return;
 
-  var id = new URLSearchParams(location.search).get('s');
+  var id = window.FICHA_ID || new URLSearchParams(location.search).get('s');
   var sitio = window.SITIOS.filter(function (x) { return x.id === id; })[0];
   if (!sitio) { seccion.remove(); return; }
 

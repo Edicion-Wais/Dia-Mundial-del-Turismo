@@ -15,14 +15,17 @@ Importa este repositorio en https://vercel.com/new con Framework Preset
 
 ## Fichas individuales y códigos QR
 
-`ficha.html?s=<id>` muestra la misma página con la ficha del sitio entre el
-título del catálogo y la frase del poeta. Se genera a partir de `index.html`
-(no editar `ficha.html` a mano) junto con las tarjetas QR en `qr/`:
+Cada sitio tiene su propia página en `<id>/index.html`, con dirección
+`https://TU-DOMINIO/<id>/` (por ejemplo `/pauji-copete-de-piedra/`). Es la
+misma página principal con la ficha del sitio entre el título del catálogo y
+la frase del poeta, el logo de la Cámara arriba a la derecha, el botón
+«Ver más del catálogo» y «Developed by WAIS» en el pie. Se generan a partir de
+`index.html` (no editarlas a mano), junto con las tarjetas QR en `qr/`:
 
 ```bash
 pip install qrcode pillow
-python3 herramientas/generar_fichas.py --base https://TU-DOMINIO.vercel.app            # los 38
-python3 herramientas/generar_fichas.py --base https://TU-DOMINIO.vercel.app --solo pauji-copete-de-piedra
+python3 herramientas/generar_fichas.py --base https://TU-DOMINIO            # QR de los 38
+python3 herramientas/generar_fichas.py --base https://TU-DOMINIO --solo pauji-copete-de-piedra
 ```
 
 Vuelve a ejecutarlo cada vez que cambie `index.html`.

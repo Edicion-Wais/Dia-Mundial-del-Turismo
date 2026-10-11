@@ -216,7 +216,7 @@ window.SITIOS = [
   },
   {
     id: 'glamping-de-montana', cat: 'lugares',
-    nombre: 'Glamping de Montaña', lugar: 'Páramos y bosques de niebla',
+    nombre: 'Glamping de Montaña Aguamiel', lugar: 'Páramos y bosques de niebla',
     corto: 'Dormir entre nubes y estrellas: la nueva forma de vivir la montaña tachirense.',
     largo: [
       'El glamping —la unión de “glamour” y “camping”— ha llegado a las montañas del Táchira con domos, cabañas y tiendas equipadas en medio del paisaje andino.',

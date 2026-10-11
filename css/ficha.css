@@ -55,3 +55,23 @@
   .ficha__marco::after { width: 60px; height: 60px; left: -12px; bottom: -12px; }
 }
 @media (prefers-reduced-motion: reduce) { .f-rev { opacity: 1 !important; transform: none !important; } }
+
+/* Logo arriba a la derecha y rótulo del catálogo */
+.ficha__logo { position: absolute; z-index: 2; top: clamp(18px, 3vw, 36px); right: var(--gutter); }
+.ficha__logo img { display: block; height: clamp(40px, 4.4vw, 64px); width: auto; }
+.ficha__catalogo {
+  margin: 0 0 12px; font-size: 13px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--lime);
+}
+.ficha__cta::after { content: "→"; }
+
+/* Pie: desarrollado por WAIS */
+.outro__wais {
+  display: inline-flex; align-items: center; gap: 10px; margin-top: 6px;
+  font-size: 12px; font-weight: 500; letter-spacing: .08em; color: rgba(255,255,255,.7);
+  opacity: .85; transition: opacity .25s;
+}
+.outro__wais img { height: 22px; width: auto; display: block; }
+.outro__wais:hover { opacity: 1; color: #fff; }
+@media (max-width: 860px) {
+  .ficha { padding-top: clamp(96px, 16vw, 130px); }
+}

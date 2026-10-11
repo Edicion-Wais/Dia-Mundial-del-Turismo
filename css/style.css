@@ -158,7 +158,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 @keyframes geoUp { to { transform: none; } }
 
 /* ---------- TÍTULO + RECUENTO (sección fija al hacer scroll) ---------- */
-.montaje { position: relative; height: 340svh; background: #050a2e; --p: 0; }
+.montaje { position: relative; height: 230svh; background: #050a2e; --p: 0; }
 .montaje__sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; isolation: isolate; display: grid; place-items: center; }
 .montaje__fondo {
   position: absolute; inset: -30px; z-index: -3;
