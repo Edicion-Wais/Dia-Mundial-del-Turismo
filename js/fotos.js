@@ -25,3 +25,12 @@ window.FOTOS_COMMONS = {
   'ceramica-lomas-bajas': 'Ollas de barro.JPG',
   'farol-colonial': 'Santiago de Compostela, farol.jpg'
 };
+
+/* Fotos propias en img/ (WebP: versión grande y "-sm"). id del sitio → nombre del archivo. */
+window.FOTOS_PROPIAS = { 'peribeca': 'hero-1', 'tucusito': 'hero-2', 'basilica-san-cristobal': 'catedral-san-cristobal', 'glamping-de-montana': 'glamping-de-montana',
+  'orquidea-angel-de-la-montana': 'orquidea-angel-de-la-montana', 'cafeto-tachirense': 'cafeto-tachirense',
+  'obelisco-de-los-italianos': 'obelisco-de-los-italianos', 'estatua-ecuestre-bolivar': 'estatua-ecuestre-bolivar',
+  'leones-de-capacho': 'leones-de-capacho', 'reloj-de-lobatera': 'reloj-de-lobatera',
+  'piedra-del-mapa': 'piedra-del-mapa', 'vuelta-al-tachira': 'vuelta-al-tachira',
+  'pan-andino': 'pan-andino', 'corona-del-reinado': 'corona-del-reinado',
+  'sombrero-andino': 'sombrero-andino', 'ruana-andina': 'ruana-andina' };

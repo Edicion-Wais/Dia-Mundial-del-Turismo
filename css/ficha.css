@@ -1,77 +1,70 @@
-/* Ficha individual del sitio (solo en ficha.html) */
-.ficha {
-  position: relative; background: var(--navy); overflow: hidden;
-  padding: clamp(64px, 9vw, 120px) var(--gutter) clamp(56px, 8vw, 100px);
+/* Ficha individual (página <sitio>/index.html, la que abren los QR) */
+.solo { min-height: 100svh; background: var(--navy); display: flex; flex-direction: column; }
+.solo__main { flex: 1; display: grid; place-items: center; padding: clamp(16px, 4vw, 48px) clamp(12px, 4vw, 48px) 120px; }
+.solo__card {
+  position: relative; width: min(1060px, 100%);
+  display: grid; grid-template-columns: 1fr 1.1fr;
+  background: #fff; color: var(--navy); border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0,0,0,.4);
+  animation: soloIn .7s cubic-bezier(.2,.7,.2,1) both;
 }
-.ficha::before {
-  content: ""; position: absolute; left: -15vw; top: 10%; width: 50vw; height: 50vw; border-radius: 50%;
-  background: radial-gradient(circle, rgba(132,194,37,.14), transparent 65%); pointer-events: none;
+@keyframes soloIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+.solo__media { position: relative; min-height: 100%; }
+.solo__media .media { position: absolute; inset: 0; }
+.solo__body { padding: 40px 40px 34px; border-top: 8px solid var(--lime); }
+.solo__logo { display: block; width: clamp(130px, 13vw, 160px); margin: -14px -8px 16px auto; }
+.solo__logo i {
+  display: block; width: 100%; aspect-ratio: 1224 / 340; background: var(--navy);
+  -webkit-mask: url("../img/logo-camara-turismo.png") center / contain no-repeat;
+          mask: url("../img/logo-camara-turismo.png") center / contain no-repeat;
 }
-.ficha__intro { position: relative; text-align: center; margin-bottom: clamp(36px, 5vw, 60px); }
-.ficha__intro p { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--lime); }
-.ficha__grid {
-  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-  gap: clamp(28px, 5vw, 72px); align-items: center; max-width: 1240px; margin: 0 auto;
+.solo__catalogo { margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--lime-dark); }
+.solo__cat { display: inline-block; margin: 0; padding: 5px 16px; border-radius: 999px; background: var(--orange); color: #fff; font-size: 13px; font-weight: 500; }
+.solo__titulo { margin: 16px 0 4px; font-size: clamp(28px, 3.4vw, 42px); font-weight: 800; line-height: 1.08; letter-spacing: -.01em; }
+.solo__lugar { margin: 0 0 18px; font-size: 15px; font-style: italic; color: var(--orange); }
+.solo__corto { margin: 0 0 6px; padding-top: 18px; font-size: 17px; font-weight: 600; line-height: 1.5;
+  background: linear-gradient(90deg, var(--orange), rgba(242,106,33,0)) top left / 60% 4px no-repeat; }
+.solo__texto p { margin: 12px 0 0; font-size: 15px; line-height: 1.75; color: #2a3170; }
+.solo__wais {
+  display: flex; align-items: center; gap: 8px; margin-top: 28px; padding-top: 16px;
+  border-top: 1px solid rgba(11,19,80,.12);
+  font-size: 11px; font-weight: 500; letter-spacing: .08em; color: #6b70a0;
 }
-.ficha__marco { position: relative; }
-.ficha__marco::before, .ficha__marco::after { content: ""; position: absolute; z-index: 0; border-radius: 50%; }
-.ficha__marco::before { width: 120px; height: 120px; right: -26px; top: -26px; background: var(--orange); }
-.ficha__marco::after { width: 90px; height: 90px; left: -22px; bottom: -22px; background: var(--cyan); border-radius: 0 0 0 90px; }
-.ficha__media {
-  position: relative; z-index: 1; aspect-ratio: 4 / 5; border-radius: var(--radius);
-  box-shadow: 0 30px 60px rgba(0,0,0,.45);
+.solo__wais i {
+  display: inline-block; height: 18px; aspect-ratio: 600 / 168; background: var(--navy);
+  -webkit-mask: url("../img/logo-wais.png") center / contain no-repeat;
+          mask: url("../img/logo-wais.png") center / contain no-repeat;
 }
-.ficha__cat {
-  display: inline-block; margin: 0 0 16px; padding: 6px 18px; border-radius: 999px;
-  background: var(--orange); color: #fff; font-size: 14px; font-weight: 500;
+.solo__wais:hover i { background: var(--orange); }
+.solo__explorar {
+  position: fixed; z-index: 10; left: 50%; bottom: max(22px, env(safe-area-inset-bottom));
+  display: inline-flex; align-items: center; gap: 10px; white-space: nowrap;
+  padding: 13px 26px; border-radius: 999px; background: var(--orange); color: #fff;
+  font-weight: 700; font-size: 15px;
+  box-shadow: 0 12px 30px rgba(242,106,33,.45), 0 0 0 3px rgba(255,255,255,.9);
+  transform: translateX(-50%); animation: flotar 2.8s ease-in-out infinite; transition: background .25s;
 }
-.ficha__titulo { margin: 0; font-size: clamp(34px, 5vw, 68px); font-weight: 800; line-height: 1.05; letter-spacing: .005em; }
-.ficha__lugar { margin: 12px 0 0; font-size: clamp(15px, 1.4vw, 18px); font-style: italic; color: var(--orange); }
-.ficha__corto {
-  margin: 24px 0 0; padding-top: 20px;
-  font-size: clamp(17px, 1.6vw, 21px); font-weight: 600; line-height: 1.5; color: #fff;
-  background: linear-gradient(90deg, var(--lime), rgba(132,194,37,0)) top left / 50% 4px no-repeat;
-}
-.ficha__texto p { margin: 16px 0 0; font-size: 15px; line-height: 1.75; color: rgba(255,255,255,.82); }
-.ficha__credito { margin: 14px 0 0; font-size: 12px; color: rgba(255,255,255,.55); }
-.ficha__credito a { color: var(--lime); }
-.ficha__cta {
-  display: inline-flex; align-items: center; gap: 10px; margin-top: 28px;
-  padding: 12px 24px; border-radius: 999px; background: var(--lime); color: var(--navy);
-  font-weight: 700; font-size: 15px; transition: background .25s, color .25s;
-}
-.ficha__cta:hover { background: var(--orange); color: #fff; }
-.ficha__cta::after { content: "↓"; }
-
-.f-rev { opacity: 0; transform: translateY(40px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
-.f-rev.is-visible { opacity: 1; transform: none; }
-.ficha__marco.f-rev { transform: translateY(40px) scale(.94) rotate(-2deg); }
-.ficha__marco.f-rev.is-visible { transform: none; }
+.solo__explorar::after { content: "→"; }
+.solo__explorar:hover { background: var(--coral); }
+@keyframes flotar { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -8px); } }
+.solo .geo { position: relative; }
 
 @media (max-width: 860px) {
-  .ficha__grid { grid-template-columns: 1fr; }
-  .ficha__marco { max-width: 460px; width: 100%; margin: 0 auto; }
-  .ficha__marco::before { width: 80px; height: 80px; right: -14px; top: -14px; }
-  .ficha__marco::after { width: 60px; height: 60px; left: -12px; bottom: -12px; }
+  .solo__main { padding: 0 0 110px; place-items: stretch; }
+  .solo__card { grid-template-columns: 1fr; border-radius: 0; box-shadow: none; }
+  .solo__media { min-height: 0; aspect-ratio: 4 / 3; }
+  .solo__body { padding: 26px 22px 30px; }
+  .solo__logo {
+    position: absolute; z-index: 3; top: 16px; right: 0; margin: 0; width: auto;
+    padding: 10px 16px 10px 18px; background: var(--navy);
+    border-radius: 14px 0 0 14px; box-shadow: -6px 8px 24px rgba(0,0,0,.3);
+    animation: logoEntra .7s cubic-bezier(.2,.8,.2,1) .35s both;
+  }
+  .solo__logo i { width: 118px; background: #fff; }
+  .solo__logo::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; border-radius: 14px 0 0 14px; background: var(--orange); }
+  @keyframes logoEntra { from { transform: translateX(105%); } to { transform: none; } }
 }
-@media (prefers-reduced-motion: reduce) { .f-rev { opacity: 1 !important; transform: none !important; } }
-
-/* Logo arriba a la derecha y rótulo del catálogo */
-.ficha__logo { position: absolute; z-index: 2; top: clamp(18px, 3vw, 36px); right: var(--gutter); }
-.ficha__logo img { display: block; height: clamp(40px, 4.4vw, 64px); width: auto; }
-.ficha__catalogo {
-  margin: 0 0 12px; font-size: 13px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--lime);
-}
-.ficha__cta::after { content: "→"; }
-
-/* Pie: desarrollado por WAIS */
-.outro__wais {
-  display: inline-flex; align-items: center; gap: 10px; margin-top: 6px;
-  font-size: 12px; font-weight: 500; letter-spacing: .08em; color: rgba(255,255,255,.7);
-  opacity: .85; transition: opacity .25s;
-}
-.outro__wais img { height: 22px; width: auto; display: block; }
-.outro__wais:hover { opacity: 1; color: #fff; }
-@media (max-width: 860px) {
-  .ficha { padding-top: clamp(96px, 16vw, 130px); }
+@media (prefers-reduced-motion: reduce) {
+  .solo__card, .solo__logo { animation: none; }
+  .solo__explorar { animation: none; transform: translateX(-50%); }
 }

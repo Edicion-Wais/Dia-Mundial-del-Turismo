@@ -5,14 +5,8 @@
   CATS.forEach(function (c) { catById[c.id] = c; });
 
   var COMMONS = window.FOTOS_COMMONS || {};
-  // Fotos propias (optimizadas en WebP: versión pequeña -sm y grande)
-  var PROPIAS = { 'peribeca': 'hero-1', 'tucusito': 'hero-2', 'basilica-san-cristobal': 'catedral-san-cristobal', 'glamping-de-montana': 'glamping-de-montana',
-    'orquidea-angel-de-la-montana': 'orquidea-angel-de-la-montana', 'cafeto-tachirense': 'cafeto-tachirense',
-    'obelisco-de-los-italianos': 'obelisco-de-los-italianos', 'estatua-ecuestre-bolivar': 'estatua-ecuestre-bolivar',
-    'leones-de-capacho': 'leones-de-capacho', 'reloj-de-lobatera': 'reloj-de-lobatera',
-    'piedra-del-mapa': 'piedra-del-mapa', 'vuelta-al-tachira': 'vuelta-al-tachira',
-    'pan-andino': 'pan-andino', 'corona-del-reinado': 'corona-del-reinado',
-    'sombrero-andino': 'sombrero-andino', 'ruana-andina': 'ruana-andina' };
+  // Fotos propias (definidas en js/fotos.js)
+  var PROPIAS = window.FOTOS_PROPIAS || {};
   function commonsUrl(archivo, ancho) {
     return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(archivo.replace(/ /g, '_')) + '?width=' + ancho;
   }

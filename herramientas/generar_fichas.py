@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Genera la extensión de fichas individuales y sus códigos QR.
 
-1. Crea una carpeta por sitio (<id>/index.html) a partir de index.html:
-   la misma página con la ficha del sitio entre el título del catálogo y la
-   frase del poeta. Así cada ficha tiene su propia dirección:
+1. Crea una carpeta por sitio (<id>/index.html) con la ficha sola del
+   sitio (foto, historia, logo, botón «Explorar catálogo» y crédito WAIS).
+   Así cada ficha tiene su propia dirección:
    <BASE>/<id>/   (p. ej. https://dominio.com/pauji-copete-de-piedra/)
-   index.html no se modifica.
 2. Crea una tarjeta QR imprimible por sitio en qr/<id>.png con esa dirección.
 
 Uso (desde la raíz del repositorio):
@@ -23,63 +22,77 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FUENTES = os.path.join(RAIZ, 'herramientas', 'fuentes')
 NAVY, LIME, ORANGE = (11, 19, 80), (132, 194, 37), (242, 106, 33)
 
-FICHA_HTML = '''<!-- ===== FICHA DEL SITIO (solo en ficha.html) ===== -->
-<section class="ficha" id="ficha" aria-label="Ficha del sitio">
-  <a class="ficha__logo" href="../" aria-label="Cámara de Turismo Táchira · ir al catálogo"><img src="../img/logo-camara-turismo.png" alt="Cámara de Turismo Táchira" width="1224" height="340"></a>
-  <div class="ficha__intro f-rev"><p>Conoce su historia</p></div>
-  <div class="ficha__grid">
-    <div class="ficha__marco f-rev">
-      <div class="ficha__media media"><span class="media__photo ficha__foto"></span></div>
+PAGINA = """<!DOCTYPE html>
+<!-- Archivo generado por herramientas/generar_fichas.py. No editar a mano. -->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{titulo}</title>
+<meta name="description" content="{corto}">
+<meta name="theme-color" content="#0B1350">
+<meta property="og:title" content="{nombre}">
+<meta property="og:description" content="{corto}">
+<meta property="og:type" content="article">
+<meta property="og:image" content="{foto}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/ficha.css">
+</head>
+<body class="solo">
+<main class="solo__main">
+  <article class="solo__card">
+    <div class="solo__media"><div class="media media--{cat}"><span class="media__photo" style="background-image:url('{foto}')"></span></div></div>
+    <div class="solo__body">
+      <a class="solo__logo" href="../" aria-label="Cámara de Turismo Táchira · ir al catálogo"><i></i></a>
+      <p class="solo__catalogo">Catálogo Turístico Táchira</p>
+      <p class="solo__cat">{categoria}</p>
+      <h1 class="solo__titulo">{nombre}</h1>
+      <p class="solo__lugar">{lugar}</p>
+      <p class="solo__corto">{corto}</p>
+      <div class="solo__texto">
+{parrafos}
+      </div>
+      <a class="solo__wais" href="https://www.instagram.com/waisdigital/" target="_blank" rel="noopener">
+        <span>Developed by</span><i role="img" aria-label="WAIS"></i>
+      </a>
     </div>
-    <div class="ficha__info">
-      <p class="ficha__catalogo f-rev">Catálogo Turístico Táchira</p>
-      <p class="ficha__cat f-rev"></p>
-      <h2 class="ficha__titulo f-rev" style="--d:.1s"></h2>
-      <p class="ficha__lugar f-rev" style="--d:.2s"></p>
-      <p class="ficha__corto f-rev" style="--d:.3s"></p>
-      <div class="ficha__texto f-rev" style="--d:.4s"></div>
-      <a class="ficha__cta f-rev" style="--d:.5s" href="../">Ver más del catálogo</a>
-    </div>
-  </div>
-</section>
+  </article>
+</main>
+<a class="solo__explorar" href="../">Explorar catálogo</a>
+<div class="geo" aria-hidden="true"></div>
+</body>
+</html>
+"""
 
-'''
+def url_foto(sitio, propias, commons):
+    if sitio['id'] in propias:
+        return '../img/%s.webp' % propias[sitio['id']]
+    if sitio['id'] in commons:
+        from urllib.parse import quote
+        return 'https://commons.wikimedia.org/wiki/Special:FilePath/%s?width=1400' % quote(commons[sitio['id']].replace(' ', '_'))
+    return '../img/%s.jpg' % sitio['id']
 
-WAIS_HTML = '''
-    <a class="outro__wais" href="https://www.instagram.com/waisdigital/" target="_blank" rel="noopener">
-      <span>Developed by</span><img src="../img/logo-wais.png" alt="WAIS" width="600" height="168">
-    </a>'''
-
-def generar_pagina(sitio):
-    """Devuelve el HTML de la ficha de un sitio (vive en <id>/index.html)."""
-    s = open(os.path.join(RAIZ, 'index.html'), encoding='utf-8').read()
-    titulo = '%s · Catálogo Turístico del Estado Táchira' % sitio['nombre']
-    reemplazos = [
-        ('<link rel="stylesheet" href="css/style.css">',
-         '<link rel="stylesheet" href="css/style.css">\n<link rel="stylesheet" href="css/ficha.css">'),
-        ('<!-- ===== EXPLORA ===== -->', FICHA_HTML + '<!-- ===== EXPLORA ===== -->'),
-        ('<script src="js/data.js"></script>',
-         '<script>window.RAIZ = "../"; window.FICHA_ID = %s;</script>\n<script src="js/data.js"></script>' % json.dumps(sitio['id'])),
-        ('<script src="js/main.js"></script>', '<script src="js/main.js"></script>\n<script src="js/ficha.js"></script>'),
-    ]
-    for a, b in reemplazos:
-        if a not in s:
-            sys.exit('No se encontró en index.html: ' + a)
-        s = s.replace(a, b, 1)
-    # rutas relativas: la ficha está una carpeta más abajo
-    s = re.sub(r'(href|src|content)="(css|js|img)/', r'\1="../\2/', s)
-    s = re.sub(r'<title>.*?</title>', '<title>%s</title>' % html.escape(titulo), s, count=1)
-    s = re.sub(r'(<meta property="og:title" content=")[^"]*', r'\g<1>' + html.escape(sitio['nombre']), s, count=1)
-    s = re.sub(r'(<meta name="description" content=")[^"]*', r'\g<1>' + html.escape(sitio['corto']), s, count=1)
-    s = re.sub(r'(<meta property="og:description" content=")[^"]*', r'\g<1>' + html.escape(sitio['corto']), s, count=1)
-    s = s.replace('<!DOCTYPE html>', '<!DOCTYPE html>\n<!-- Archivo generado por herramientas/generar_fichas.py a partir de index.html. No editar a mano. -->', 1)
-    return s
+def generar_pagina(sitio, cats, propias, commons):
+    """HTML de la ficha sola de un sitio (vive en <id>/index.html)."""
+    e = html.escape
+    return PAGINA.format(
+        titulo=e('%s · Catálogo Turístico del Estado Táchira' % sitio['nombre']),
+        nombre=e(sitio['nombre']), corto=e(sitio['corto']), lugar=e(sitio['lugar']),
+        categoria=e(cats[sitio['cat']]['titulo']), cat=sitio['cat'],
+        foto=e(url_foto(sitio, propias, commons)),
+        parrafos='\n'.join('        <p>%s</p>' % e(t) for t in sitio['largo']),
+    )
 
 def leer_sitios():
-    js = 'global.window={};require(%s);console.log(JSON.stringify({c:window.CATEGORIAS,s:window.SITIOS}))' % json.dumps(os.path.join(RAIZ, 'js', 'data.js'))
+    js = ('global.window={};require(%s);require(%s);'
+          'console.log(JSON.stringify({c:window.CATEGORIAS,s:window.SITIOS,p:window.FOTOS_PROPIAS,m:window.FOTOS_COMMONS}))'
+          % (json.dumps(os.path.join(RAIZ, 'js', 'data.js')), json.dumps(os.path.join(RAIZ, 'js', 'fotos.js'))))
     d = json.loads(subprocess.check_output(['node', '-e', js]))
     cats = {c['id']: c for c in d['c']}
-    return d['s'], cats
+    return d['s'], cats, d['p'], d['m']
 
 def fuente(peso, tam):
     return ImageFont.truetype(os.path.join(FUENTES, 'Poppins-%s.ttf' % peso), tam)
@@ -141,11 +154,11 @@ def main():
     ap.add_argument('--base', required=True, help='Dirección pública de la web, p. ej. https://dia-mundial-del-turismo.vercel.app')
     ap.add_argument('--solo', nargs='*', help='IDs de los sitios cuyo QR se genera (por defecto, todos)')
     a = ap.parse_args()
-    sitios, cats = leer_sitios()
+    sitios, cats, propias, commons = leer_sitios()
     for s in sitios:  # páginas de todas las fichas
         carpeta = os.path.join(RAIZ, s['id'])
         os.makedirs(carpeta, exist_ok=True)
-        open(os.path.join(carpeta, 'index.html'), 'w', encoding='utf-8').write(generar_pagina(s))
+        open(os.path.join(carpeta, 'index.html'), 'w', encoding='utf-8').write(generar_pagina(s, cats, propias, commons))
     print('%d fichas generadas (<id>/index.html)' % len(sitios))
     ids = set(a.solo) if a.solo else None
     os.makedirs(os.path.join(RAIZ, 'qr'), exist_ok=True)

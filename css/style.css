@@ -513,7 +513,7 @@ html.con-ficha, html.con-ficha body { overflow: hidden; }
 .modal__vermas {
   position: fixed !important; z-index: 5; left: 50%; bottom: max(22px, env(safe-area-inset-bottom));
   margin: 0 !important; transform: translateX(-50%); white-space: nowrap;
-  box-shadow: 0 12px 30px rgba(11,19,80,.45), 0 0 0 3px rgba(255,255,255,.9);
+  box-shadow: 0 12px 30px rgba(242,106,33,.45), 0 0 0 3px rgba(255,255,255,.9);
   animation: flotar 2.8s ease-in-out infinite;
 }
 @keyframes flotar {
@@ -524,11 +524,11 @@ html.con-ficha, html.con-ficha body { overflow: hidden; }
 .modal__cat { clear: none; }
 .modal__vermas {
   display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
-  padding: 12px 24px; border-radius: 999px; background: var(--navy); color: #fff;
+  padding: 12px 24px; border-radius: 999px; background: var(--orange); color: #fff;
   font-weight: 700; font-size: 15px; transition: background .25s;
 }
 .modal__vermas::after { content: "↑"; }
-.modal__vermas:hover { background: var(--orange); }
+.modal__vermas:hover { background: var(--coral); }
 .modal__wais {
   display: flex; align-items: center; gap: 8px; margin-top: 28px; padding-top: 16px;
   border-top: 1px solid rgba(11,19,80,.12);
