@@ -67,6 +67,7 @@ def logo(im, color, y=1850, ancho=820):
 def patron(im):
     alto = 170
     p = Image.open(os.path.join(RAIZ, 'img', 'patron.png')).convert('RGBA')
+    p = p.crop((0, 0, p.width, p.height - 2))   # las 2 últimas filas son casi transparentes (dejaban una línea)
     p = p.resize((int(p.width * alto / p.height), alto), Image.LANCZOS)
     x = -60
     while x < W:

@@ -10,14 +10,14 @@ SALIDA = os.path.join(DIR, 'QR-Catalogo-Turistico-Tachira-CMYK.pdf')
 PERFIL = os.path.join(RAIZ, 'herramientas', 'perfil-cmyk-swop.icc')
 ANCHO_MM, ALTO_MM, SANGRADO_MM = 60, 100, 3
 
-# Tintas fijas (C, M, Y, K en %) para los colores planos: lima más vivo y
+# Tintas fijas (C, M, Y, K en %) para los colores planos: verde #87c410 y
 # azul marino #181e49 (C100 M94 Y41 K41).
 TINTAS = {
     (26, 30, 60):   (100, 94, 41, 41),     # azul marino
     (2, 14, 67):    (100, 94, 41, 41),     # azul del patrón
-    (130, 187, 37): (40, 0, 100, 0),       # verde lima
+    (130, 187, 37): (54, 0, 100, 0),       # verde lima
     (236, 102, 29): (0, 75, 100, 0),       # naranja
-    (128, 193, 28): (40, 0, 100, 0),       # verde del patrón
+    (128, 193, 28): (54, 0, 100, 0),       # verde del patrón
     (252, 100, 10): (0, 75, 100, 0),       # naranja del patrón
 }
 TOLERANCIA = 14
@@ -30,8 +30,10 @@ def cmyk(png):
     if png in cache:
         return cache[png]
     im = Image.open(png).convert('RGB')
-    s = round(im.width / ANCHO_MM * SANGRADO_MM)         # sangrado: se refleja el borde
-    im = Image.fromarray(np.pad(np.asarray(im), ((s, s), (s, s), (0, 0)), mode='symmetric'))
+    s = round(im.width / ANCHO_MM * SANGRADO_MM)         # sangrado: se prolonga el borde
+    b = 3                                                # se descartan los bordes suavizados
+    a = np.asarray(im)[b:-b, b:-b]
+    im = Image.fromarray(np.pad(a, ((s + b, s + b), (s + b, s + b), (0, 0)), mode='edge'))
     c = np.array(ImageCms.applyTransform(im, rgb_a_cmyk))
     rgb = np.asarray(im)
     for col, tinta in TINTAS.items():
