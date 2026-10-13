@@ -10,12 +10,8 @@ window.FOTOS_COMMONS = {
   'querrequerre': 'Inca Jay - Querrequerre (Cyanocorax yncas) (9140440574).jpg',
   'oso-frontino': 'Tremarctos ornatus Maquipucuna.jpg',
   'venado-de-montana': 'Mazama rufina1.JPG',
-  'chorro-el-indio': 'Cascada Chorro El Indio..JPG',
-  'pozos-de-lobatera': 'Poso Azul Lobatera.jpg',
   'puente-simon-bolivar': 'Puente San Antonio (IMG 6075).jpg',
   'virgen-de-la-consolacion': 'Basílica de Nuestra Señora de la Consolación.JPG',
-  'santo-cristo-de-la-grita': 'Santo Cristo de La Grita.JPG',
-  'deportivo-tachira': 'Estadio Polideportivo Pueblo Nuevo San Cristobal Estado Tachira Venezuela 1.jpg',
   'ucat': 'UCAT.jpg',
   'toro-de-la-feria': 'Plaza Monumental de Toros de Pueblo Nuevo.jpg',
   'pina-hato-de-la-virgen': 'AnanasComosusOnPlant.jpg',
@@ -33,4 +29,7 @@ window.FOTOS_PROPIAS = { 'peribeca': 'hero-1', 'tucusito': 'hero-2', 'basilica-s
   'leones-de-capacho': 'leones-de-capacho', 'reloj-de-lobatera': 'reloj-de-lobatera',
   'piedra-del-mapa': 'piedra-del-mapa', 'vuelta-al-tachira': 'vuelta-al-tachira',
   'pan-andino': 'pan-andino', 'corona-del-reinado': 'corona-del-reinado',
-  'sombrero-andino': 'sombrero-andino', 'ruana-andina': 'ruana-andina' };
+  'sombrero-andino': 'sombrero-andino', 'ruana-andina': 'ruana-andina',
+  'pozos-de-lobatera': 'pozos-de-lobatera', 'chorro-el-indio': 'chorro-el-indio',
+  'santo-cristo-de-la-grita': 'santo-cristo-de-la-grita', 'deportivo-tachira': 'deportivo-tachira',
+  'bandolin-andino': 'bandolin-andino' };

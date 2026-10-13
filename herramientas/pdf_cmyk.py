@@ -1,5 +1,5 @@
-"""PDF de impresión en CMYK: tarjetas 120×200 mm + 3 mm de sangrado, alternando
-catálogo / sitio. Uso: python3 herramientas/pdf_cmyk.py [--sin-sangrado]"""
+"""PDF de impresión en CMYK: tarjetas 60×100 mm + 3 mm de sangrado, con el
+catálogo (1.ª página) y luego los 38 sitios. Uso: python3 herramientas/pdf_cmyk.py [--sin-sangrado]"""
 import io, json, os, subprocess, sys
 import numpy as np, img2pdf, pikepdf
 from PIL import Image, ImageCms
@@ -63,9 +63,8 @@ def main():
     ids = json.loads(subprocess.check_output(['node', '-e', js]))
     assert sorted(ids) == sorted(ORDEN) and len(ORDEN) == 38, 'ORDEN no coincide con data.js'
     ids = ORDEN
-    paginas = []
-    for i in ids:
-        paginas += [cmyk(os.path.join(DIR, 'catalogo.png')), cmyk(os.path.join(DIR, i + '.png'))]
+    paginas = [cmyk(os.path.join(DIR, 'catalogo.png'))]          # el hablador azul solo una vez, al inicio
+    paginas += [cmyk(os.path.join(DIR, i + '.png')) for i in ids]
     pt = img2pdf.mm_to_pt
     lay = img2pdf.get_layout_fun((pt(ANCHO_MM + 2 * SANGRADO_MM), pt(ALTO_MM + 2 * SANGRADO_MM)))
     tmp = SALIDA + '.tmp'
