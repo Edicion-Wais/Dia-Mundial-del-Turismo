@@ -8,7 +8,19 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIR = os.path.join(RAIZ, 'tarjetas-qr')
 SALIDA = os.path.join(DIR, 'QR-Catalogo-Turistico-Tachira-CMYK.pdf')
 PERFIL = os.path.join(RAIZ, 'herramientas', 'perfil-cmyk-swop.icc')
-ANCHO_MM, ALTO_MM, SANGRADO_MM = 120, 200, 3
+ANCHO_MM, ALTO_MM, SANGRADO_MM = 60, 100, 3
+
+# Tintas fijas (C, M, Y, K en %) para los colores planos: lima más vivo y
+# azul marino más claro que la conversión automática del perfil.
+TINTAS = {
+    (26, 30, 60):   (100, 88, 25, 12),     # azul marino
+    (130, 187, 37): (40, 0, 100, 0),       # verde lima
+    (236, 102, 29): (0, 75, 100, 0),       # naranja
+    (2, 14, 67):    (100, 88, 25, 12),     # azul del patrón
+    (128, 193, 28): (40, 0, 100, 0),       # verde del patrón
+    (252, 100, 10): (0, 75, 100, 0),       # naranja del patrón
+}
+TOLERANCIA = 14
 
 rgb_a_cmyk = ImageCms.buildTransform(ImageCms.createProfile('sRGB'), ImageCms.getOpenProfile(PERFIL),
                                      'RGB', 'CMYK', renderingIntent=ImageCms.Intent.RELATIVE_COLORIMETRIC)
@@ -18,9 +30,13 @@ def cmyk(png):
     if png in cache:
         return cache[png]
     im = Image.open(png).convert('RGB')
-    s = round(im.width / ANCHO_MM * SANGRADO_MM)         # sangrado: se extiende el borde
-    im = Image.fromarray(np.pad(np.asarray(im), ((s, s), (s, s), (0, 0)), mode='edge'))
-    c = ImageCms.applyTransform(im, rgb_a_cmyk)
+    s = round(im.width / ANCHO_MM * SANGRADO_MM)         # sangrado: se refleja el borde
+    im = Image.fromarray(np.pad(np.asarray(im), ((s, s), (s, s), (0, 0)), mode='symmetric'))
+    c = np.array(ImageCms.applyTransform(im, rgb_a_cmyk))
+    rgb = np.asarray(im)
+    for col, tinta in TINTAS.items():
+        c[(np.abs(rgb.astype(int) - col).max(axis=2) <= TOLERANCIA)] = [round(v * 2.55) for v in tinta]
+    c = Image.fromarray(c, 'CMYK')
     buf = io.BytesIO(); c.save(buf, 'TIFF', compression='tiff_adobe_deflate', dpi=(300, 300))
     cache[png] = buf.getvalue()
     return cache[png]
