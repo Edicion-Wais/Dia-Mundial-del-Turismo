@@ -10,13 +10,11 @@ SALIDA = os.path.join(DIR, 'QR-Catalogo-Turistico-Tachira-CMYK.pdf')
 PERFIL = os.path.join(RAIZ, 'herramientas', 'perfil-cmyk-swop.icc')
 ANCHO_MM, ALTO_MM, SANGRADO_MM = 60, 100, 3
 
-# Tintas fijas (C, M, Y, K en %) para los colores planos: lima más vivo y
-# azul marino más claro que la conversión automática del perfil.
+# Tintas fijas (C, M, Y, K en %) para los colores planos: lima más vivo;
+# el azul marino se deja con la conversión automática del perfil.
 TINTAS = {
-    (26, 30, 60):   (100, 88, 25, 12),     # azul marino
     (130, 187, 37): (40, 0, 100, 0),       # verde lima
     (236, 102, 29): (0, 75, 100, 0),       # naranja
-    (2, 14, 67):    (100, 88, 25, 12),     # azul del patrón
     (128, 193, 28): (40, 0, 100, 0),       # verde del patrón
     (252, 100, 10): (0, 75, 100, 0),       # naranja del patrón
 }
