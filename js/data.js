@@ -116,10 +116,10 @@ window.SITIOS = [
   /* ---------- LUGARES Y MONUMENTOS ---------- */
   {
     id: 'basilica-san-cristobal', cat: 'lugares',
-    nombre: 'Catedral de San Cristóbal', lugar: 'San Cristóbal',
+    nombre: 'Basílica de San Cristóbal', lugar: 'San Cristóbal',
     corto: 'El gran templo de la capital tachirense, frente a la plaza donde nació la ciudad en 1561.',
     largo: [
-      'San Cristóbal fue fundada el 31 de marzo de 1561 por el capitán Juan Maldonado. Frente a la plaza que hoy lleva su nombre se levanta su templo mayor, la Catedral de San Cristóbal, corazón religioso de la ciudad.',
+      'San Cristóbal fue fundada el 31 de marzo de 1561 por el capitán Juan Maldonado. Frente a la plaza que hoy lleva su nombre se levanta su templo mayor, la Basílica de San Cristóbal, corazón religioso de la ciudad.',
       'Es la sede de la Diócesis de San Cristóbal, creada en 1922. Su fachada blanca, sus torres y su campanario son una de las imágenes más reconocibles del casco histórico.',
       'En su interior, los vitrales narran capítulos de la historia local: la fundación de la ciudad, el paso de Simón Bolívar por San Cristóbal en 1813 y el traslado de la imagen de Nuestra Señora de la Consolación.'
     ]
