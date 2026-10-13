@@ -30,10 +30,10 @@ def cmyk(png):
     if png in cache:
         return cache[png]
     im = Image.open(png).convert('RGB')
-    s = round(im.width / ANCHO_MM * SANGRADO_MM)         # sangrado: se prolonga el borde
+    s = round(im.width / ANCHO_MM * SANGRADO_MM)         # sangrado: se refleja el borde
     b = 3                                                # se descartan los bordes suavizados
     a = np.asarray(im)[b:-b, b:-b]
-    im = Image.fromarray(np.pad(a, ((s + b, s + b), (s + b, s + b), (0, 0)), mode='edge'))
+    im = Image.fromarray(np.pad(a, ((s + b, s + b), (s + b, s + b), (0, 0)), mode='symmetric'))
     c = np.array(ImageCms.applyTransform(im, rgb_a_cmyk))
     rgb = np.asarray(im)
     for col, tinta in TINTAS.items():
