@@ -23,13 +23,15 @@ BASE = 'https://catalogoturisticotachira.waisdigital.com'
 NAVY, LIME, ORANGE, WHITE = (26, 30, 60), (130, 187, 37), (236, 102, 29), (255, 255, 255)
 W, H = 1418, 2364
 QR_LADO, QR_Y = 900, 820
+INTER = 1.16                               # interlineado del nombre (evita choque g/ñ)
+NO_SEPARAR = ['de La Grita']
 
 def fuente(peso, tam):
     return ImageFont.truetype(os.path.join(FUENTES, 'Poppins-%s.ttf' % peso), tam)
 
 def lineas(dr, txt, f, ancho):
     out, actual = [], ''
-    for pal in txt.split():
+    for pal in txt.split(' '):
         prueba = (actual + ' ' + pal).strip()
         if dr.textlength(prueba, font=f) <= ancho or not actual:
             actual = prueba
@@ -39,6 +41,7 @@ def lineas(dr, txt, f, ancho):
 
 def texto(dr, y, ls, f, color, inter=1.0):
     for l in ls:
+        l = l.replace('\u00a0', ' ')
         dr.text(((W - dr.textlength(l, font=f)) / 2, y), l, font=f, fill=color)
         y += int(f.size * inter)
     return y
@@ -81,16 +84,19 @@ def panel_catalogo(destino):
 
 def panel_sitio(sitio, destino):
     im = Image.new('RGB', (W, H), LIME); dr = ImageDraw.Draw(im)
+    nombre = sitio['nombre']
+    for grupo in NO_SEPARAR:               # grupos que deben quedar en una sola línea
+        nombre = nombre.replace(grupo, grupo.replace(' ', '\u00a0'))
     tam = 128
     while True:
         f = fuente('ExtraBold', tam)
-        ls = lineas(dr, sitio['nombre'], f, W - 200)
+        ls = lineas(dr, nombre, f, W - 200)
         if len(ls) <= 2 or tam <= 90:
             break
         tam -= 6
-    alto_txt = int(tam * 1.02) * len(ls)
+    alto_txt = int(tam * INTER) * len(ls)
     y0 = 380 - alto_txt                    # el bloque del nombre termina sobre la pastilla
-    texto(dr, max(y0, 90), ls, f, NAVY, 1.02)
+    texto(dr, max(y0, 90), ls, f, NAVY, INTER)
     dr.rounded_rectangle((246, 540, 1172, 696), 78, fill=ORANGE)
     fc = fuente('ExtraBold', 92)
     t = 'CONÓCEME'
