@@ -59,16 +59,21 @@ def patron(alto):
         banda.paste(p, (x, 0), p); x += p.width
     return banda
 
+def logo_abajo_izq(im):
+    """Logo de la Cámara en la esquina inferior izquierda de cada mitad."""
+    logo = Image.open(os.path.join(RAIZ, 'img', 'logo-camara-turismo.png')).convert('RGBA')
+    logo.thumbnail((250, 80))
+    im.paste(logo, (70, MITAD - 70 - 34 - logo.height), logo)
+
 def mitad_catalogo():
     im = Image.new('RGB', (W, MITAD), NAVY); dr = ImageDraw.Draw(im)
-    logo = Image.open(os.path.join(RAIZ, 'img', 'logo-camara-turismo.png')).convert('RGBA')
-    logo.thumbnail((300, 90)); im.paste(logo, ((W - logo.width) // 2, 60), logo)
-    y = centrado(dr, 175, 'CATÁLOGO TURÍSTICO', fuente('ExtraBold', 92), WHITE)
+    y = centrado(dr, 95, 'CATÁLOGO TURÍSTICO', fuente('ExtraBold', 92), WHITE)
     dr.rounded_rectangle((W / 2 - 170, y + 8, W / 2 + 170, y + 16), 4, fill=LIME)
     centrado(dr, y + 30, 'DEL ESTADO TÁCHIRA', fuente('ExtraBold', 56), ORANGE)
     caja, mask = caja_qr(BASE + '/', 470)
-    im.paste(caja, ((W - 470) // 2, 400), mask)
+    im.paste(caja, ((W - 470) // 2, 330), mask)
     banda = patron(70); im.paste(banda, (0, MITAD - 70), banda)
+    logo_abajo_izq(im)
     return im
 
 def mitad_sitio(sitio, cat):
@@ -87,6 +92,7 @@ def mitad_sitio(sitio, cat):
     tw = dr.textlength(txt, font=fe); yt = yq + lado + 26
     dr.text(((W - tw) / 2, yt), txt, font=fe, fill=LIME)
     banda = patron(70); im.paste(banda, (0, MITAD - 70), banda)
+    logo_abajo_izq(im)
     return im
 
 def tarjeta(sitio, cat, destino):
