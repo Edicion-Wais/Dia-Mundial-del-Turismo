@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tarjetas de mesa (formato 4:5) para doblar por la línea punteada.
+"""Tarjetas de mesa (1300 × 2000 px) para doblar por la línea punteada.
 
 Mitad inferior: «CATÁLOGO TURÍSTICO DEL ESTADO TÁCHIRA» + QR de la página principal.
 Mitad superior (girada 180° para leerse desde el otro lado de la mesa):
@@ -19,7 +19,7 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FUENTES = os.path.join(RAIZ, 'herramientas', 'fuentes')
 BASE = 'https://catalogoturisticotachira.waisdigital.com'
 NAVY, LIME, ORANGE, WHITE = (11, 19, 80), (132, 194, 37), (242, 106, 33), (255, 255, 255)
-W, H = 1600, 2000          # 4:5
+W, H = 1300, 2000          # alto fijo; ancho reducido
 MITAD = H // 2
 
 def fuente(peso, tam):
@@ -59,21 +59,21 @@ def patron(alto):
         banda.paste(p, (x, 0), p); x += p.width
     return banda
 
-def logo_abajo_izq(im):
-    """Logo de la Cámara en la esquina inferior izquierda de cada mitad."""
+def logo_abajo_der(im):
+    """Logo de la Cámara en la esquina inferior derecha de cada mitad."""
     logo = Image.open(os.path.join(RAIZ, 'img', 'logo-camara-turismo.png')).convert('RGBA')
-    logo.thumbnail((250, 80))
-    im.paste(logo, (70, MITAD - 70 - 34 - logo.height), logo)
+    logo.thumbnail((330, 110))
+    im.paste(logo, (W - 60 - logo.width, MITAD - 70 - 30 - logo.height), logo)
 
 def mitad_catalogo():
     im = Image.new('RGB', (W, MITAD), NAVY); dr = ImageDraw.Draw(im)
-    y = centrado(dr, 95, 'CATÁLOGO TURÍSTICO', fuente('ExtraBold', 92), WHITE)
+    y = centrado(dr, 95, 'CATÁLOGO TURÍSTICO', fuente('ExtraBold', 82), WHITE)
     dr.rounded_rectangle((W / 2 - 170, y + 8, W / 2 + 170, y + 16), 4, fill=LIME)
     centrado(dr, y + 30, 'DEL ESTADO TÁCHIRA', fuente('ExtraBold', 56), ORANGE)
     caja, mask = caja_qr(BASE + '/', 470)
     im.paste(caja, ((W - 470) // 2, 330), mask)
     banda = patron(70); im.paste(banda, (0, MITAD - 70), banda)
-    logo_abajo_izq(im)
+    logo_abajo_der(im)
     return im
 
 def mitad_sitio(sitio, cat):
@@ -82,17 +82,17 @@ def mitad_sitio(sitio, cat):
     x0 = (W - tw) / 2 - 30
     dr.rounded_rectangle((x0, 60, x0 + tw + 60, 112), 26, fill=ORANGE)
     dr.text((x0 + 30, 64), t, font=fc, fill=WHITE)
-    tam = 84 if len(sitio['nombre']) <= 22 else 66
+    tam = 80 if len(sitio['nombre']) <= 20 else 62
     y = centrado(dr, 130, sitio['nombre'], fuente('ExtraBold', tam), WHITE, margen=110)
     lado = 470 if y < 240 else 420
     caja, mask = caja_qr('%s/%s/' % (BASE, sitio['id']), lado)
-    yq = max(y + 24, 250)
+    yq = max(y + 36, 250)
     im.paste(caja, ((W - lado) // 2, yq), mask)
     fe = fuente('ExtraBold', 54); txt = 'ESCANÉAME'
     tw = dr.textlength(txt, font=fe); yt = yq + lado + 26
     dr.text(((W - tw) / 2, yt), txt, font=fe, fill=LIME)
     banda = patron(70); im.paste(banda, (0, MITAD - 70), banda)
-    logo_abajo_izq(im)
+    logo_abajo_der(im)
     return im
 
 def tarjeta(sitio, cat, destino):
