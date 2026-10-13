@@ -27,6 +27,18 @@ TOLERANCIA = 14
 
 rgb_a_cmyk = ImageCms.buildTransform(ImageCms.createProfile('sRGB'), ImageCms.getOpenProfile(PERFIL),
                                      'RGB', 'CMYK', renderingIntent=ImageCms.Intent.RELATIVE_COLORIMETRIC)
+# Orden de la lista de centros de mesa (ICONOS_CENTROS_DE_MESA.xlsx)
+ORDEN = ['pauji-copete-de-piedra', 'tucusito', 'pato-de-torrentes', 'toche', 'guacharaca',
+         'querrequerre', 'oso-frontino', 'venado-de-montana', 'vuelta-al-tachira',
+         'estatua-ecuestre-bolivar', 'glamping-de-montana', 'leones-de-capacho',
+         'orquidea-angel-de-la-montana', 'virgen-de-la-consolacion', 'piedra-del-mapa',
+         'pina-hato-de-la-virgen', 'basilica-san-cristobal', 'peribeca', 'santo-cristo-de-la-grita',
+         'chorro-el-indio', 'pozos-de-lobatera', 'puente-simon-bolivar', 'ucat', 'deportivo-tachira',
+         'obelisco-de-los-italianos', 'toro-de-la-feria', 'pan-andino', 'reloj-de-lobatera',
+         'corona-del-reinado', 'taza-de-peltre', 'ruana-andina', 'cesta-de-palmira', 'muneca-de-trapo',
+         'sombrero-andino', 'cafeto-tachirense', 'ceramica-lomas-bajas', 'bandolin-andino',
+         'farol-colonial']
+
 cache = {}
 
 def cmyk(png):
@@ -49,6 +61,8 @@ def cmyk(png):
 def main():
     js = 'global.window={};require(%s);console.log(JSON.stringify(window.SITIOS.map(s=>s.id)))' % json.dumps(os.path.join(RAIZ, 'js', 'data.js'))
     ids = json.loads(subprocess.check_output(['node', '-e', js]))
+    assert sorted(ids) == sorted(ORDEN) and len(ORDEN) == 38, 'ORDEN no coincide con data.js'
+    ids = ORDEN
     paginas = []
     for i in ids:
         paginas += [cmyk(os.path.join(DIR, 'catalogo.png')), cmyk(os.path.join(DIR, i + '.png'))]
