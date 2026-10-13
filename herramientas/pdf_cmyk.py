@@ -1,6 +1,6 @@
 """PDF de impresión en CMYK: tarjetas 120×200 mm + 3 mm de sangrado, alternando
-catálogo / sitio. Uso: python3 herramientas/pdf_cmyk.py"""
-import io, json, os, subprocess
+catálogo / sitio. Uso: python3 herramientas/pdf_cmyk.py [--sin-sangrado]"""
+import io, json, os, subprocess, sys
 import numpy as np, img2pdf, pikepdf
 from PIL import Image, ImageCms
 
@@ -9,6 +9,9 @@ DIR = os.path.join(RAIZ, 'tarjetas-qr')
 SALIDA = os.path.join(DIR, 'QR-Catalogo-Turistico-Tachira-CMYK.pdf')
 PERFIL = os.path.join(RAIZ, 'herramientas', 'perfil-cmyk-swop.icc')
 ANCHO_MM, ALTO_MM, SANGRADO_MM = 60, 100, 3
+if '--sin-sangrado' in sys.argv:                         # 6×10 cm exactos, sin sangrado
+    SANGRADO_MM = 0
+    SALIDA = SALIDA.replace('.pdf', '-sin-sangrado.pdf')
 
 # Tintas fijas (C, M, Y, K en %) para los colores planos: verde #87c410 y
 # azul marino #181e49 (C100 M94 Y41 K41).
