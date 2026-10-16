@@ -25,6 +25,7 @@ W, H = 1418, 2364
 QR_LADO, QR_Y = 900, 820
 INTER = 1.16                               # interlineado del nombre (evita choque g/ñ)
 NO_SEPARAR = ['de La Grita']
+NOMBRES = {'glamping-de-montana': 'Glamping'}   # nombre en la tarjeta distinto al de la web
 
 def fuente(peso, tam):
     return ImageFont.truetype(os.path.join(FUENTES, 'Poppins-%s.ttf' % peso), tam)
@@ -85,7 +86,7 @@ def panel_catalogo(destino):
 
 def panel_sitio(sitio, destino):
     im = Image.new('RGB', (W, H), LIME); dr = ImageDraw.Draw(im)
-    nombre = sitio['nombre']
+    nombre = NOMBRES.get(sitio['id'], sitio['nombre'])
     for grupo in NO_SEPARAR:               # grupos que deben quedar en una sola línea
         nombre = nombre.replace(grupo, grupo.replace(' ', '\u00a0'))
     tam = 128
